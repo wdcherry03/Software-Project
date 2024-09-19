@@ -45,6 +45,6 @@ public class splash extends JPanel{
         f.setSize(500,500);
         f.setVisible(true);
         spl.repaint();
-        System.out.println("Hello  world");
+        System.out.println("Hello   world");
     }
 }
