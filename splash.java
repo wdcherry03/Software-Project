@@ -1,5 +1,4 @@
 //Splash Screen File
-import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -22,8 +21,14 @@ public class splash{
             System.exit(1);
         }
     }
+    public void paintComponent(Graphics g)
+    {
+        g.drawImage(this.logo, 500, 500, null);
+    }
     public static void main(String[] args)
     {
+        splash spl = new splash();
+        spl.loadImage();
         System.out.println("Hello  world");
     }
 }
