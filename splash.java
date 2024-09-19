@@ -1,12 +1,12 @@
 //Splash Screen File
 import javax.swing.JPanel;
-import java.awt.Graphics;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import java.awt.Toolkit;
+
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
@@ -43,8 +43,17 @@ public class splash extends JPanel{
         f.setTitle("Laser Tag");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(500,500);
+        f.getContentPane().add(spl);
         f.setVisible(true);
-        spl.repaint();
         System.out.println("Hello   world");
+        while (true) {
+            spl.repaint();
+            try {
+                Thread.sleep(40);
+            }
+            catch(Exception e) {
+                System.out.println("Uh oh");
+            }
+        }
     }
 }
