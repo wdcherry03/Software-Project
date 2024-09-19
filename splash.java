@@ -1,11 +1,18 @@
 //Splash Screen File
+import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import java.awt.Toolkit;
+import java.util.*;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 
-public class splash{
+public class splash extends JFrame{
     
     private BufferedImage logo;
 
@@ -21,7 +28,7 @@ public class splash{
             System.exit(1);
         }
     }
-    public void paintComponent(Graphics g)
+    public void paint(Graphics g)
     {
         g.drawImage(this.logo, 500, 500, null);
     }
@@ -29,6 +36,7 @@ public class splash{
     {
         splash spl = new splash();
         spl.loadImage();
+        spl.repaint();
         System.out.println("Hello  world");
     }
 }
