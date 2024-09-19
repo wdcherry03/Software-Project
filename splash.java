@@ -21,8 +21,8 @@ public class splash extends JPanel{
         try
         {
             this.logo = ImageIO.read(new File("logo.jpg"));
-            System.out.println("Success");
-            System.out.println("Yes");
+            // System.out.println("Success");
+            // System.out.println("Yes");
         }
         catch(Exception e)
         {
@@ -32,8 +32,10 @@ public class splash extends JPanel{
     }
     public void paintComponent(Graphics g)
     {
-        System.out.println("Yep");
-        g.drawImage(this.logo, 0, -150, null);
+        // System.out.println("Yep");
+        g.setColor(new Color(0,0,0));
+        g.fillRect(0, 0, 500, 500);
+        g.drawImage(this.logo, 0, -75, 500, 500, null);
     }
     public static void main(String[] args)
     {
@@ -42,10 +44,10 @@ public class splash extends JPanel{
         JFrame f = new JFrame();
         f.setTitle("Laser Tag");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(7500,7500);
+        f.setSize(500,500);
         f.getContentPane().add(spl);
         f.setVisible(true);
-        System.out.println("Hello   world");
+        // System.out.println("Hello   world");
         while (true) {
             spl.repaint();
             try {
