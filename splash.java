@@ -12,7 +12,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class splash extends JFrame{
+public class splash extends JPanel{
     
     private BufferedImage logo;
 
@@ -34,6 +34,8 @@ public class splash extends JFrame{
     }
     public static void main(String[] args)
     {
+        JFrame f = new JFrame();
+        f.setSize(500,500);
         splash spl = new splash();
         spl.loadImage();
         spl.repaint();
