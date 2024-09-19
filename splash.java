@@ -33,7 +33,7 @@ public class splash extends JPanel{
     public void paintComponent(Graphics g)
     {
         System.out.println("Yep");
-        g.drawImage(this.logo, 0, 0, null);
+        g.drawImage(this.logo, -150, 0, null);
     }
     public static void main(String[] args)
     {
@@ -42,7 +42,7 @@ public class splash extends JPanel{
         JFrame f = new JFrame();
         f.setTitle("Laser Tag");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(500,500);
+        f.setSize(750,750);
         f.getContentPane().add(spl);
         f.setVisible(true);
         System.out.println("Hello   world");
