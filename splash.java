@@ -12,9 +12,13 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+
 public class splash extends JPanel{
     
     private BufferedImage logo;
+    private boolean check = true;
+    private int count = 0;
+
 
     void loadImage()
     {
@@ -35,7 +39,23 @@ public class splash extends JPanel{
         // System.out.println("Yep");
         g.setColor(new Color(0,0,0));
         g.fillRect(0, 0, 500, 500);
-        g.drawImage(this.logo, 0, -75, 500, 500, null);
+        if(this.check == true)
+        {
+            g.drawImage(this.logo, 0, -75, 500, 500, null);
+        }
+        if(this.count == 1)
+        {
+            try
+            {
+                Thread.sleep(3000);
+            }
+            catch(InterruptedException ie)
+            {
+                Thread.currentThread().interrupt();
+            }
+        }
+        this.count++;
+        this.check = false;
     }
     public static void main(String[] args)
     {
