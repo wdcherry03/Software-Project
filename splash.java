@@ -24,7 +24,7 @@ public class splash extends JPanel{
     {
         try
         {
-            this.logo = ImageIO.read(new File("logo.jpg"));
+            this.logo = ImageIO.read(new File(".\\assets\\logo.jpg"));
             // System.out.println("Success");
             // System.out.println("Yes");
         }
