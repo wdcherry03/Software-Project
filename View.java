@@ -14,9 +14,14 @@ public class View extends JPanel {
 	// MVC Components
 	private Model model;
 
+	// Variables
+	private splash splashScreen;
+
 	// Constructor
 	public View(Controller c, Model m) {
 		model = m;
+		splashScreen = new splash();
+		splashScreen.run();
 	}
 
 	// Update function. Runs every frame

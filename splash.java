@@ -57,7 +57,7 @@ public class splash extends JPanel{
         this.count++;
         this.check = false;
     }
-    public static void main(String[] args)
+    public void run()
     {
         splash spl = new splash();
         spl.loadImage();
