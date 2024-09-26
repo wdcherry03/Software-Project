@@ -12,17 +12,21 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+
 public class splash extends JPanel{
     
     private BufferedImage logo;
+    private boolean check = true;
+    private int count = 0;
+
 
     void loadImage()
     {
         try
         {
-            this.logo = ImageIO.read(new File("logo.jpg"));
-            System.out.println("Success");
-            System.out.println("Yes");
+            this.logo = ImageIO.read(new File(".\\assets\\logo.jpg"));
+            // System.out.println("Success");
+            // System.out.println("Yes");
         }
         catch(Exception e)
         {
@@ -32,10 +36,28 @@ public class splash extends JPanel{
     }
     public void paintComponent(Graphics g)
     {
-        System.out.println("Yep");
-        g.drawImage(this.logo, 0, 0, null);
+        // System.out.println("Yep");
+        g.setColor(new Color(0,0,0));
+        g.fillRect(0, 0, 500, 500);
+        if(this.check == true)
+        {
+            g.drawImage(this.logo, 0, -75, 500, 500, null);
+        }
+        if(this.count == 1)
+        {
+            try
+            {
+                Thread.sleep(3000);
+            }
+            catch(InterruptedException ie)
+            {
+                Thread.currentThread().interrupt();
+            }
+        }
+        this.count++;
+        this.check = false;
     }
-    public static void main(String[] args)
+    public void run()
     {
         splash spl = new splash();
         spl.loadImage();
@@ -45,7 +67,7 @@ public class splash extends JPanel{
         f.setSize(500,500);
         f.getContentPane().add(spl);
         f.setVisible(true);
-        System.out.println("Hello   world");
+        // System.out.println("Hello   world");
         while (true) {
             spl.repaint();
             try {
