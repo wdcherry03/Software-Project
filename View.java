@@ -1,9 +1,8 @@
-/* Student: Winston Bounsavy
- * Date Submitted:	3-27-2024
- * Due Date:		3-27-2024
- * Assignment 5 Description:
- * This assignment is mainly rewriting the script to be more modular by including subclasses. We also add two more sprite subclasses,
- * Pellet and Fruit.
+/* 
+ * View Component
+ * Handles UI, messages, toasts, and other visual components.
+ * Also handles the starting splash screen and other screen overlays
+ * Calls other components to handle signals and database stuff.
  */
 
 import javax.swing.JPanel;
