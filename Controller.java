@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
-// Handles inputs with the mouse and keyboard
 public class Controller implements ActionListener, MouseListener, KeyListener {
 
 	// MVC Components

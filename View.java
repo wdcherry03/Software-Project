@@ -8,7 +8,6 @@
 import javax.swing.JPanel;
 import java.awt.Graphics;
 
-// Handles the button and drawing the turtle image / background
 public class View extends JPanel {
 
 	// MVC Components
