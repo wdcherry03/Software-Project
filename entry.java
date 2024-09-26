@@ -30,7 +30,9 @@ public class entry extends JPanel{
 
         // Add checkboxes for each player for each team
         redTeamPanel.add(new JLabel("RED TEAM", JLabel.CENTER));
+        redTeamPanel.setBackground(Color.RED);
         greenTeamPanel.add(new JLabel("GREEN TEAM", JLabel.CENTER));
+        greenTeamPanel.setBackground(Color.GREEN);
 
         // Add checkboxes
         for (int i = 1; i <= 19; i++) {
