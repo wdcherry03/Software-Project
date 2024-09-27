@@ -15,12 +15,15 @@ public class View extends JPanel {
 
 	// Variables
 	private splash splashScreen;
+	private entry screen;
 
 	// Constructor
 	public View(Controller c, Model m) {
 		model = m;
 		splashScreen = new splash();
-		splashScreen.run();
+		//splashScreen.run();
+		screen = new entry();
+		screen.run();
 	}
 
 	// Update function. Runs every frame

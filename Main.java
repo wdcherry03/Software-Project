@@ -35,12 +35,12 @@ public class Main extends JFrame {
 		controller.setView(view);
 
 		// Sets JFrame data
-		this.setTitle("Temp");
-		this.setSize(gameWindowWidth, gameWindowHeight);
-		this.setFocusable(true);
-		this.getContentPane().add(view);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
+		// this.setTitle("Temp");
+		// this.setSize(gameWindowWidth, gameWindowHeight);
+		// this.setFocusable(true);
+		// this.getContentPane().add(view);
+		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// this.setVisible(true);
 	}
 
 	// Core functional loop

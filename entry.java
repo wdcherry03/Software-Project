@@ -17,7 +17,7 @@ public class entry extends JPanel{
     private JPanel greenTeamPanel;
     private JPanel buttonPanel;
 
-    public entry() {
+    public void run() {
 
         // Create frame
         frame = new JFrame("Entry Terminal");
@@ -63,6 +63,7 @@ public class entry extends JPanel{
     }
 
     public static void main(String[] args) {
-        new entry();
+        entry entryScreen = new entry();
+        entryScreen.run();
     }
 }
