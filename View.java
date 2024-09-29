@@ -21,9 +21,9 @@ public class View extends JPanel {
 	public View(Controller c, Model m) {
 		model = m;
 		splashScreen = new splash();
-		//splashScreen.run();
+		splashScreen.run();
 		screen = new entry();
-		screen.run();
+		//screen.run();
 	}
 
 	// Update function. Runs every frame
