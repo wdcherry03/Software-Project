@@ -1,0 +1,3 @@
+# Ignores java class files as they are compiled when running
+.mtj.tmp/
+*.class
