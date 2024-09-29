@@ -12,7 +12,7 @@ import java.awt.event.*;
 
 public class entry extends JPanel{
 
-    private JFrame frame;
+    // private JFrame frame;
     private JPanel redTeamPanel;
     private JPanel greenTeamPanel;
     private JPanel buttonPanel;
