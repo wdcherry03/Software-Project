@@ -9,39 +9,29 @@ import java.util.Properties;
 
 public class Model {
 
+	// Variables
+	Connection database;
+
 	
 	// Constructor
 	public Model() {
 
 		// Sets up connection to database
 		String url = "jdbc:postgresql://localhost/photon";
-		Connection database;
 
 		try {
 			// Connects to the database
 			database = DriverManager.getConnection(url, "student", "student");
 
 			// Attempts to add two players to the database
-			Statement st = database.createStatement();
-			st.executeUpdate("INSERT INTO players (id, codename) VALUES (5, 'wolfgang')");
-
-			st = database.createStatement();
-			st.executeUpdate("INSERT INTO players (id, codename) VALUES (6, 'griffin')");
-
-			// Attempts to retrieve players from the database
-			st = database.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM players");
+			addPlayerPSQL(database, 14, "jem");
+			addPlayerPSQL(database, 15, "gemma");
 
 			// Prints players as a test
-			System.out.println("Database Retrieved Players: ");
-			while (rs.next()) {
-					System.out.println(rs.getString(2));
-			}
-			rs.close();
-			st.close();
+			printPlayersPSQL(database);
 		} 
 		catch (SQLException e) {
-			System.out.println("Error connecting to database, skipping connection step");
+			System.out.println("ERROR connecting to database, skipping connection step");
 			System.out.println(e.getMessage());
 		}
 	}
@@ -50,5 +40,42 @@ public class Model {
 	public void update() {
 	}
 
+	// Adds a player to the database table
+	// Returns true on successful insert, false otherwise
+	public boolean addPlayerPSQL(Connection database, int playerId, String codename) {
+		try {
+			Statement st = database.createStatement();
+			String query = "INSERT INTO players (id, codename) VALUES (" + playerId + ", '" + codename + "')";
+			System.out.println(query);
 
+			st.executeUpdate(query);
+			st.close();
+			return true;
+		}
+		catch (SQLException e) {
+			System.out.println("ERROR inserting player into database");
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+
+	// Queries for the entire database table and prints the player codenames
+	// Mainly for testing / debugging
+	public void printPlayersPSQL(Connection database) {
+		try {
+			Statement st = database.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM players");
+
+			System.out.println("Got Players: ");
+			while (rs.next()) {
+				System.out.println(rs.getString(2));
+			}
+
+			st.close();
+		}
+		catch (SQLException e) {
+			System.out.println("ERROR retrieving list of players from database");
+			System.out.println(e.getMessage());
+		}
+	}
 }
