@@ -1,0 +1,5 @@
+javac "Main.java"
+javac "View.java"
+javac "Controller.java"
+javac "Model.java"
+java -cp .:postgresql-42.7.4.jar "Main"
