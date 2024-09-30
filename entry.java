@@ -17,6 +17,20 @@ public class entry extends JPanel{
     private JPanel greenTeamPanel;
     private JPanel buttonPanel;
 
+    // Temporary, player entry panels
+    private JPanel playerEntryPanel;
+    private JButton playerAddButton;
+    private JTextField playerAddIdField;
+    private JTextField playerAddNameField;
+
+    // MVC Components
+    private Model model;
+
+    // Constructor
+    public entry(Model m) {
+        model = m;
+    }
+
     public void run(JFrame frame) {
 
         // Create frame
@@ -59,15 +73,30 @@ public class entry extends JPanel{
         buttonPanel.add(new JButton("Flick Sync"));
         buttonPanel.add(new JButton("Clear Game"));
 
+        // Player Add buttons
+        playerEntryPanel = new JPanel(new GridLayout(1, 3));
+        playerAddButton = new JButton("Add Player");
+        playerAddIdField = new JTextField("Enter ID Here");
+        playerAddNameField = new JTextField("Enter Player Codename Here");
+        playerEntryPanel.add(playerAddButton);
+        playerEntryPanel.add(playerAddNameField);
+        playerEntryPanel.add(playerAddIdField);
+
+        // Adds a player when the player add button is called 
+        playerAddButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                String codename = playerAddNameField.getText();
+                int id = Integer.parseInt(playerAddIdField.getText());
+                model.addPlayerPSQL(id, codename);
+            }
+        });
+        
+
         // Add panels to frame
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.SOUTH);
+        frame.add(playerEntryPanel, BorderLayout.SOUTH);
 
         frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        entry entryScreen = new entry();
-        //entryScreen.run();
     }
 }
