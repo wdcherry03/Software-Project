@@ -92,7 +92,7 @@ public class splash extends JPanel{
         f.remove(spl);
         entryScreen.run(f);
 
-        while (true) {
+        /*while (true) {
             spl.repaint();
             try {
                 Thread.sleep(40);
@@ -100,6 +100,6 @@ public class splash extends JPanel{
             catch(Exception e) {
                 System.out.println("Uh oh");
             }
-        }
+        }*/
     }
 }
