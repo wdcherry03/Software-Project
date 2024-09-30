@@ -19,12 +19,23 @@ public class splash extends JPanel{
     // private boolean check = true;
     // private int count = 0;
 
+    // TEMP MVC, gives this to entry screen
+    Model model;
+
+    public splash() {
+    }
+
+    // Temp constructor
+    public splash(Model m) {
+        model = m;
+    }
+
     // Loading logo image
     void loadImage()
     {
         try
         {
-            this.logo = ImageIO.read(new File(".\\assets\\logo.jpg"));
+            this.logo = ImageIO.read(new File("./assets/logo.jpg"));
             // System.out.println("Success");
             // System.out.println("Yes");
         }
@@ -59,7 +70,7 @@ public class splash extends JPanel{
     public void run()
     {
         splash spl = new splash();
-        entry entryScreen = new entry();
+        entry entryScreen = new entry(model);
         spl.loadImage();
         JFrame f = new JFrame();
         f.setTitle("Laser Tag");

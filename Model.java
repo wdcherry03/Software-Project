@@ -24,11 +24,11 @@ public class Model {
 			database = DriverManager.getConnection(url, "student", "student");
 
 			// Attempts to add two players to the database
-			addPlayerPSQL(database, 14, "jem");
-			addPlayerPSQL(database, 15, "gemma");
+			// addPlayerPSQL(database, 14, "jem");
+			// addPlayerPSQL(database, 15, "gemma");
 
 			// Prints players as a test
-			printPlayersPSQL(database);
+			printPlayersPSQL();
 		} 
 		catch (SQLException e) {
 			System.out.println("ERROR connecting to database, skipping connection step");
@@ -42,7 +42,7 @@ public class Model {
 
 	// Adds a player to the database table
 	// Returns true on successful insert, false otherwise
-	public boolean addPlayerPSQL(Connection database, int playerId, String codename) {
+	public boolean addPlayerPSQL(int playerId, String codename) {
 		try {
 			Statement st = database.createStatement();
 			String query = "INSERT INTO players (id, codename) VALUES (" + playerId + ", '" + codename + "')";
@@ -61,7 +61,7 @@ public class Model {
 
 	// Queries for the entire database table and prints the player codenames
 	// Mainly for testing / debugging
-	public void printPlayersPSQL(Connection database) {
+	public void printPlayersPSQL() {
 		try {
 			Statement st = database.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM players");
