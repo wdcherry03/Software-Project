@@ -16,10 +16,10 @@ import java.awt.event.*;
 public class splash extends JPanel{
     
     private BufferedImage logo;
-    private boolean check = true;
-    private int count = 0;
+    // private boolean check = true;
+    // private int count = 0;
 
-
+    // Loading logo image
     void loadImage()
     {
         try
@@ -34,32 +34,32 @@ public class splash extends JPanel{
             System.exit(1);
         }
     }
+    // Overrides base repaint() function
     public void paintComponent(Graphics g)
     {
         // System.out.println("Yep");
         g.setColor(new Color(0,0,0));
         g.fillRect(0, 0, 800, 600);
-        if(this.check == true)
-        {
-            g.drawImage(this.logo, 0, -75, 800, 600, null);
-        }
-        if(this.count == 1)
-        {
-            try
-            {
-                Thread.sleep(3000);
-            }
-            catch(InterruptedException ie)
-            {
-                Thread.currentThread().interrupt();
-            }
-        }
-        this.count++;
-        this.check = false;
+        g.drawImage(this.logo, 0, -75, 800, 600, null);
+        // if(this.count == 1)
+        // {
+        //     try
+        //     {
+        //         Thread.sleep(3000);
+        //     }
+        //     catch(InterruptedException ie)
+        //     {
+        //         Thread.currentThread().interrupt();
+        //     }
+        // }
+        // this.count++;
+        // this.check = false;
     }
+
     public void run()
     {
         splash spl = new splash();
+        entry entryScreen = new entry();
         spl.loadImage();
         JFrame f = new JFrame();
         f.setTitle("Laser Tag");
@@ -67,7 +67,20 @@ public class splash extends JPanel{
         f.setSize(800,600);
         f.getContentPane().add(spl);
         f.setVisible(true);
-        // System.out.println("Hello   world");
+
+        try
+        {
+            Thread.sleep(3000);
+        }
+        catch(InterruptedException ie)
+        {
+            Thread.currentThread().interrupt();
+        }
+
+        //Transition from splash screen to entry screen
+        f.remove(spl);
+        entryScreen.run(f);
+
         while (true) {
             spl.repaint();
             try {
