@@ -45,6 +45,7 @@ public class Main extends JFrame {
 
 	// Core functional loop
 	public void run() {
+
 		while(true) {
 
 			// Updates each component
