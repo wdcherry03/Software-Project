@@ -14,10 +14,16 @@ public class Model {
 	Connection database;
 	udpServer server;
 	udpClient client;
+	int redID; // Odd
+	int greenID; // Even
+	String input;
 
 	
 	// Constructor
 	public Model() {
+		redID = 11; // Starting values
+		greenID = 12;
+		input = "12";
 
 		// Sets up connection to database
 		String url = "jdbc:postgresql://localhost/photon";
@@ -52,7 +58,7 @@ public class Model {
 	// Update function. Runs every frame
 	public void update() {
 		server.update();
-		client.update();
+		client.update(input);
 	}
 
 	// Adds a player to the database table

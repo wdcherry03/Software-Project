@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 public class udpClient
 {
 	// Variables
-	public Scanner sc;
+	//public Scanner sc;
 	public DatagramSocket ds;
 	public InetAddress ip;
 	byte[] buf;
@@ -19,7 +19,7 @@ public class udpClient
 	public udpClient()
 	{
 		try {
-			sc = new Scanner(System.in);
+			//sc = new Scanner(System.in);
 
 			// Step 1:Create the socket object for carrying the data. (port 7500)
 			ds = new DatagramSocket(7500);
@@ -42,12 +42,12 @@ public class udpClient
 	}
 
 	// Update function, runs every frame
-	public int update()
+	public int update(String Input)
 	{
-		String inp = sc.nextLine();
+		String input = Input;
 
 		// convert the String input into the byte array.
-		buf = inp.getBytes();
+		buf = input.getBytes();
 
 		// Step 2 : Create the datagramPacket for sending the data.
 		DatagramPacket DpSend = new DatagramPacket(buf, buf.length, ip, 7501);
@@ -62,7 +62,7 @@ public class udpClient
 		}
 
 		// break the loop if user enters "bye"
-		if (inp.equals("bye"))
+		if (input.equals("bye"))
 			return 1; // Returns 1 when exiting
 		System.out.println("upd");
 		return 0;
