@@ -57,8 +57,12 @@ public class Model {
 
 	// Update function. Runs every frame
 	public void update() {
-		server.update();
-		client.update(input);
+		if (input != null)
+		{
+			client.update(input);
+			server.update();
+			input = null;
+		}
 	}
 
 	// Adds a player to the database table
@@ -68,6 +72,8 @@ public class Model {
 			Statement st = database.createStatement();
 			String query = "INSERT INTO players (id, codename) VALUES (" + playerId + ", '" + codename + "')";
 			System.out.println(query);
+
+			input = Integer.toString(redID++);
 
 			st.executeUpdate(query);
 			st.close();

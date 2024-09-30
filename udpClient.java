@@ -64,7 +64,6 @@ public class udpClient
 		// break the loop if user enters "bye"
 		if (input.equals("bye"))
 			return 1; // Returns 1 when exiting
-		System.out.println("upd");
 		return 0;
 	}
 }

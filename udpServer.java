@@ -33,16 +33,20 @@ public class udpServer
 	{
 		// Step 2 : create a DatgramPacket to receive the data.
 		DpReceive = new DatagramPacket(receive, receive.length);
-
-		try {
-			// Step 3 : recieve the data in byte buffer.
-			ds.receive(DpReceive);
+		
+		if (DpReceive != null)
+		{
+			System.out.println("update");
+			try {
+				// Step 3 : recieve the data in byte buffer.
+				ds.receive(DpReceive);
+			}
+			catch (IOException e) {
+				System.out.println("ERROR receiving data");
+				System.out.println(e.getMessage());
+			}
 		}
-		catch (IOException e) {
-			System.out.println("ERROR receiving data");
-			System.out.println(e.getMessage());
-		}
-		System.out.println("Client:-" + data(receive));
+		System.out.println("Client: " + data(receive));
 
 		// Exit the server if the client sends "bye"
 		if (data(receive).toString().equals("bye"))
@@ -53,7 +57,6 @@ public class udpServer
 
 		// Clear the buffer after every message.
 		receive = new byte[65535];
-		System.out.println("upd");
 		return 0;
 	}
 
