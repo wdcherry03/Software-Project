@@ -1,5 +1,5 @@
 ::@echo off
-javac Main.java View.java Controller.java Model.java
+javac Main.java View.java Controller.java Model.java splash.java Player.java entry.java udpClient.java udpServer.java
 if %errorlevel% neq 0 (
 	echo Error Compiling	
 ) else (
