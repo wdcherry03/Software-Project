@@ -6,11 +6,14 @@
 
 import java.sql.*;
 import java.util.Properties;
+import java.net.SocketException;
 
 public class Model {
 
 	// Variables
 	Connection database;
+	udpServer server;
+	udpClient client;
 
 	
 	// Constructor
@@ -34,10 +37,22 @@ public class Model {
 			System.out.println("ERROR connecting to database, skipping connection step");
 			System.out.println(e.getMessage());
 		}
+
+		// UDP stuff
+		try{
+			server = new udpServer(); // Create server socket
+		}
+		catch (SocketException e){
+			System.out.println("ERROR creating socket");
+			System.out.println(e.getMessage());
+		}
+		client = new udpClient(); // Create client socket
 	}
 
 	// Update function. Runs every frame
 	public void update() {
+		server.update();
+		client.update();
 	}
 
 	// Adds a player to the database table

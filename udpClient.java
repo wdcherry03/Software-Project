@@ -9,14 +9,20 @@ import java.net.UnknownHostException;
 
 public class udpClient
 {
+	// Variables
+	public Scanner sc;
+	public DatagramSocket ds;
+	public InetAddress ip;
+	byte[] buf;
+
 	// Constructor
 	public udpClient()
 	{
 		try {
-			Scanner sc = new Scanner(System.in);
+			sc = new Scanner(System.in);
 
 			// Step 1:Create the socket object for carrying the data. (port 7500)
-			DatagramSocket ds = new DatagramSocket(7500);
+			ds = new DatagramSocket(7500);
 		}
 		catch (SocketException e) {
 			System.out.println("ERROR creating socket");
@@ -24,24 +30,20 @@ public class udpClient
 		}
 
 		try {
-			InetAddress ip = InetAddress.getLocalHost();
+			ip = InetAddress.getLocalHost();
 			//InetAddress ip = InetAddress.getByName("192.168.1.100"); // Address given in slides
 		}
 		catch (UnknownHostException e) {
 			System.out.println("ERROR connecting to host");
 			System.out.println(e.getMessage());
 		}
-		byte[] buf = null;
+		buf = null;
+		System.out.println("client constructor");
 	}
 
 	// Update function, runs every frame
-	public int update(Scanner SC, DatagramSocket DS, byte[] B, InetAddress IP)
+	public int update()
 	{
-		Scanner sc = SC;
-		DatagramSocket ds = DS;
-		byte[] buf = B;
-		InetAddress ip = IP;
-
 		String inp = sc.nextLine();
 
 		// convert the String input into the byte array.
@@ -62,6 +64,7 @@ public class udpClient
 		// break the loop if user enters "bye"
 		if (inp.equals("bye"))
 			return 1; // Returns 1 when exiting
+		System.out.println("upd");
 		return 0;
 	}
 }

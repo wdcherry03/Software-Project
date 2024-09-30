@@ -7,31 +7,33 @@ import java.net.SocketException;
 
 public class udpServer
 {
+	DatagramSocket ds;
+	byte[] receive;
+	DatagramPacket DpReceive;
+
 	// Costructor
 	public udpServer() throws SocketException
 	{
 		try {
 			// Step 1 : Create a socket to listen at port 7501
-			DatagramSocket ds = new DatagramSocket(7501);
-			byte[] receive = new byte[65535];
+			ds = new DatagramSocket(7501);
+			receive = new byte[65535];
 			
-			DatagramPacket DpReceive = null;
+			DpReceive = null;
 		} 
 		catch (SocketException e) {
 			System.out.println("ERROR creating socket");
 			System.out.println(e.getMessage());
 		}
+		System.out.println("server constructor");
 	}
 
 	// Update function, runs every frame
-	public int update(DatagramPacket DP, byte[] R, DatagramSocket DS)
+	public int update()
 	{
 		// Step 2 : create a DatgramPacket to receive the data.
-		DatagramPacket DpReceive = DP;
-		byte[] receive = R;
 		DpReceive = new DatagramPacket(receive, receive.length);
 
-		DatagramSocket ds = DS;
 		try {
 			// Step 3 : recieve the data in byte buffer.
 			ds.receive(DpReceive);
@@ -51,11 +53,11 @@ public class udpServer
 
 		// Clear the buffer after every message.
 		receive = new byte[65535];
+		System.out.println("upd");
 		return 0;
 	}
 
-	// A utility method to convert the byte array
-	// data into a string representation.
+	// A utility method to convert the byte array data into a string representation.
 	public static StringBuilder data(byte[] a)
 	{
 		if (a == null)
