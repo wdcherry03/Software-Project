@@ -43,17 +43,21 @@ public class entry extends JPanel{
         greenTeamPanel = new JPanel(new GridLayout(20, 1));
 
         // Add checkboxes for each player for each team
-        redTeamPanel.add(new JLabel("RED TEAM PLAYER", JLabel.LEFT));
-        redTeamPanel.add(new JLabel("RED TEAM ID", JLabel.LEFT));
+        redTeamPanel.add(new JLabel("   PLAYER NAME", JLabel.LEFT));
+        redTeamPanel.add(new JLabel("PLAYER ID", JLabel.LEFT));
+        redTeamPanel.add(new JLabel("HARDWARE ID", JLabel.LEFT));
         redTeamPanel.setBackground(Color.RED);
-        greenTeamPanel.add(new JLabel("GREEN TEAM PLAYER", JLabel.LEFT));
-        greenTeamPanel.add(new JLabel("GREEN TEAM ID", JLabel.LEFT));
+        greenTeamPanel.add(new JLabel("   PLAYER NAME", JLabel.LEFT));
+        greenTeamPanel.add(new JLabel("PLAYER ID", JLabel.LEFT));
+        greenTeamPanel.add(new JLabel("HARDWARE ID", JLabel.LEFT));
         greenTeamPanel.setBackground(Color.GREEN);
 
         // Add checkboxes
         for (int i = 1; i <= 19; i++) {
             redTeamPanel.add(new JTextField());
             redTeamPanel.add(new JTextField());
+            redTeamPanel.add(new JTextField());
+            greenTeamPanel.add(new JTextField());
             greenTeamPanel.add(new JTextField());
             greenTeamPanel.add(new JTextField());
         }
