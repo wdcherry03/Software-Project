@@ -7,30 +7,20 @@
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Color;
 
 public class View extends JPanel {
 
 	// MVC Components
-	private Model model;
+	public Model model;
+	public Controller controller;
 
 	// Variables
-	private splash splashScreen;
-	private entry screen;
-
-	// Constructor
-	public View(Controller c, Model m) {
-		model = m;
-		splashScreen = new splash(model);
-		splashScreen.run();
-		// screen.run();
-		// screen = new entry(model);
-	}
+	private entry entryScreen;
 
 	// Update function. Runs every frame
 	public void update() {
-	}
-
-	// Overloads paintComponent. Runs every frame
-	public void paintComponent(Graphics g) {
 	}
 }

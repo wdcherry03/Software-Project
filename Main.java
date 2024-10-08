@@ -29,18 +29,34 @@ public class Main extends JFrame {
 		// Sets up MVC components
 		model = new Model();
 		controller = new Controller(model);
-		view = new View(controller, model);
+		view = new View();
 		view.addMouseListener(controller);
 		this.addKeyListener(controller);
 		controller.setView(view);
 
-		// Sets JFrame data
-		// this.setTitle("Temp");
-		// this.setSize(gameWindowWidth, gameWindowHeight);
-		// this.setFocusable(true);
-		// this.getContentPane().add(view);
-		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// this.setVisible(true);
+        this.setTitle("Laser Tag");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(800,600);
+
+		// Loads splash screen
+		splash splashScreen = new splash();
+		this.getContentPane().add(splashScreen);
+		this.setVisible(true);
+
+		// Sleeps 3 seconds
+		try {
+            Thread.sleep(3000);
+        }
+        catch(InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+
+		// Switch to view control
+		this.setVisible(false);
+		this.getContentPane().remove(splashScreen);
+        this.getContentPane().add(view);
+		this.setVisible(true);
+		
 	}
 
 	// Core functional loop
@@ -53,7 +69,7 @@ public class Main extends JFrame {
 			model.update();
 			view.update();
 
-			view.repaint(); 					// This will indirectly call View.paintComponent
+			// view.repaint(); 					// This will indirectly call View.paintComponent
 			Toolkit.getDefaultToolkit().sync(); // Updates screen
 
 			// Sleeps until the next frame. 1000 / 40 = 25 fps
