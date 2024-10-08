@@ -36,7 +36,7 @@ public class udpServer
 		
 		if (DpReceive != null)
 		{
-			System.out.println("update");
+			//System.out.println("update");
 			try {
 				// Step 3 : recieve the data in byte buffer.
 				ds.receive(DpReceive);
