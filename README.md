@@ -6,7 +6,9 @@ Project for Software Engineering - Team 15
 Instructions for running on provided Debian Machine:
 
 Install Java
-    - You can find information here "https://www.java.com/en/download/help/linux_x64_install.html"
+    - To install Java on a Linux machine, open the terminal and enter the following lines:
+        sudo apt-get update
+        sudo apt install default-jdk
 
 Clone this repository
     - Or copy the source code directly
