@@ -17,11 +17,12 @@ public class View extends JFrame {
 	public Controller controller;
 	public JFrame frame;
 
-	// Variables
-	private entry entryScreen;
-
 	// Constructor
-	public View() {
+	public View(Model m, Controller c) {
+
+		// MVC
+		model = m;
+		controller = c;
 
 		// Set JFrame data
 		this.setTitle("Laser Tag");
@@ -42,7 +43,6 @@ public class View extends JFrame {
         }
 
 		// Switch to entry screen
-		// this.getContentPane().remove(splashScreen);
 		this.runEntry();
 	}
 
@@ -57,7 +57,7 @@ public class View extends JFrame {
 	// Runs the entry screen
 	public void runEntry() {
 
-		// Clears JfRame
+		// Clears JFRame
 		this.getContentPane().removeAll();
 		this.repaint();
 
@@ -66,25 +66,44 @@ public class View extends JFrame {
         JPanel greenTeamPanel = new JPanel(new GridLayout(20, 1));
 		JPanel buttonPanel;
 
-        // Add checkboxes for each player for each team
-        redTeamPanel.add(new JLabel("   PLAYER NAME", JLabel.LEFT));
-        redTeamPanel.add(new JLabel("PLAYER ID", JLabel.LEFT));
-        redTeamPanel.add(new JLabel("HARDWARE ID", JLabel.LEFT));
+        // Add table headers
+		JPanel redTeamHeader = new JPanel(new GridLayout(1, 3));
+        redTeamHeader.add(new JLabel("PLAYER NAME", JLabel.LEFT));
+        redTeamHeader.add(new JLabel("PLAYER ID", JLabel.LEFT));
+        redTeamHeader.add(new JLabel("HARDWARE ID", JLabel.LEFT));
+		redTeamHeader.setBackground(Color.RED);
+
+		redTeamPanel.add(redTeamHeader);
         redTeamPanel.setBackground(Color.RED);
+
         greenTeamPanel.add(new JLabel("   PLAYER NAME", JLabel.LEFT));
         greenTeamPanel.add(new JLabel("PLAYER ID", JLabel.LEFT));
         greenTeamPanel.add(new JLabel("HARDWARE ID", JLabel.LEFT));
         greenTeamPanel.setBackground(Color.GREEN);
 
         // Add checkboxes
-        for (int i = 1; i <= 19; i++) {
-            redTeamPanel.add(new JTextField());
-            redTeamPanel.add(new JTextField());
-            redTeamPanel.add(new JTextField());
-            greenTeamPanel.add(new JTextField());
-            greenTeamPanel.add(new JTextField());
-            greenTeamPanel.add(new JTextField());
-        }
+        // for (int i = 1; i <= 19; i++) {
+        //     redTeamPanel.add(new JTextField());
+        //     redTeamPanel.add(new JTextField());
+        //     redTeamPanel.add(new JTextField());
+        //     greenTeamPanel.add(new JTextField());
+        //     greenTeamPanel.add(new JTextField());
+        //     greenTeamPanel.add(new JTextField());
+        // }
+
+		Player playerRed1 = new Player(1, "Dave", 101);
+		PlayerPanel testRed1 = new PlayerPanel(playerRed1);
+		Player playerRed2 = new Player(3, "Craig", 103);
+		PlayerPanel testRed2 = new PlayerPanel(playerRed2);
+		redTeamPanel.add(testRed1);
+		redTeamPanel.add(testRed2);
+
+		Player playerGreen1 = new Player(2, "Bata", 102);
+		PlayerPanel testGreen1 = new PlayerPanel(playerGreen1);
+		Player playerGreen2 = new Player(4, "Tako", 104);
+		PlayerPanel testGreen2 = new PlayerPanel(playerGreen2);
+		greenTeamPanel.add(testGreen1);
+		greenTeamPanel.add(testGreen2);
 
         // Create panel to hold both team panels
         JPanel mainPanel = new JPanel(new GridLayout(1, 2));
