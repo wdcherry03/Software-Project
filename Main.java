@@ -28,35 +28,12 @@ public class Main extends JFrame {
 
 		// Sets up MVC components
 		model = new Model();
-		controller = new Controller(model);
+		controller = new Controller();
 		view = new View();
+
+		// Finishes setting up MVC
 		view.addMouseListener(controller);
-		this.addKeyListener(controller);
-		controller.setView(view);
-
-        this.setTitle("Laser Tag");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800,600);
-
-		// Loads splash screen
-		splash splashScreen = new splash();
-		this.getContentPane().add(splashScreen);
-		this.setVisible(true);
-
-		// Sleeps 3 seconds
-		try {
-            Thread.sleep(3000);
-        }
-        catch(InterruptedException ie) {
-            Thread.currentThread().interrupt();
-        }
-
-		// Switch to view control
-		this.setVisible(false);
-		this.getContentPane().remove(splashScreen);
-        this.getContentPane().add(view);
-		this.setVisible(true);
-		
+		view.addKeyListener(controller);	
 	}
 
 	// Core functional loop
