@@ -4,6 +4,7 @@
  * Handles recieving and sending signals
  */
 
+import java.util.*;
 import java.sql.*;
 import java.util.Properties;
 import java.net.SocketException;
@@ -11,19 +12,29 @@ import java.net.SocketException;
 public class Model {
 
 	// Variables
-	Connection database;
-	udpServer server;
-	udpClient client;
-	int redID; // Odd
-	int greenID; // Even
-	String input;
+	public Connection database;
+	public udpServer server;
+	public udpClient client;
+	public int redID; // Odd
+	public int greenID; // Even
+	public Strgin input;
+
+	// Player Lists
+	public ArrayList<Player> redPlayerList;
+	public ArrayList<Player> greenPlayerList;
+
 
 	
 	// Constructor
 	public Model() {
-		redID = 11; // Starting values
+
+		// Initialize Varables
+		redID = 11;
 		greenID = 12;
 		input = "12";
+
+		redPlayerList = new ArrayList<Player>;
+		greenPlayerList = new ArrayList<Player>;
 
 		// Sets up connection to database
 		String url = "jdbc:postgresql://localhost/photon";
@@ -32,12 +43,8 @@ public class Model {
 			// Connects to the database
 			database = DriverManager.getConnection(url, "student", "student");
 
-			// Attempts to add two players to the database
-			// addPlayerPSQL(database, 14, "jem");
-			// addPlayerPSQL(database, 15, "gemma");
-
-			// Prints players as a test
-			printPlayersPSQL();
+			// Fills player lists with database entries
+			fillTeamLists();
 		} 
 		catch (SQLException e) {
 			System.out.println("ERROR connecting to database, skipping connection step");
@@ -101,7 +108,35 @@ public class Model {
 			st.close();
 		}
 		catch (SQLException e) {
-			System.out.println("ERROR retrieving list of players from database");
+			System.out.println("ERROR retrieving list of players from database [printPlayersPSQL()]");
+			System.out.println(e.getMessage());
+		}
+	}
+
+	// Dumps red and green lists in memory and replaces it with ones in the database
+	public void fillTeamLists() {
+		try {
+
+			// Queries PSQL Database
+			Statement st = database.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM players");
+			System.out.println("Got Players, Populating Team Lists");
+
+			// Dumps current team lists
+			redPlayerList = new ArrayList<Player>();
+			greenPlayerList = new ArrayList<Player>();
+
+			// Populates list with database entries
+			while (rs.next()) {
+				System.out.println(rs.getString(1));
+				System.out.println(rs.getString(2));
+				System.out.println("");
+			}
+
+			st.close();
+		}
+		catch (SQLException e) {
+			System.out.println("ERROR retrieving list of players from database [fillTeamLists()]");
 			System.out.println(e.getMessage());
 		}
 	}
