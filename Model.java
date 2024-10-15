@@ -17,7 +17,7 @@ public class Model {
 	public udpClient client;
 	public int redID; // Odd
 	public int greenID; // Even
-	public Strgin input;
+	public String input;
 
 	// Player Lists
 	public ArrayList<Player> redPlayerList;
@@ -33,8 +33,8 @@ public class Model {
 		greenID = 12;
 		input = "12";
 
-		redPlayerList = new ArrayList<Player>;
-		greenPlayerList = new ArrayList<Player>;
+		redPlayerList = new ArrayList<Player>();
+		greenPlayerList = new ArrayList<Player>();
 
 		// Sets up connection to database
 		String url = "jdbc:postgresql://localhost/photon";

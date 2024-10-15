@@ -29,7 +29,7 @@ public class Main extends JFrame {
 		// Sets up MVC components
 		model = new Model();
 		controller = new Controller();
-		view = new View();
+		view = new View(model, controller);
 
 		// Finishes setting up MVC
 		view.addMouseListener(controller);

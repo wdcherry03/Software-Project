@@ -16,17 +16,21 @@ import java.awt.event.KeyEvent;
 public class Controller implements ActionListener, MouseListener, KeyListener {
 
 	// MVC Components
-	private View view;
-	private Model model;
+	public View view;
+	public Model model;
 
 	// Constructor
-	public Controller(Model m) {
-		model = m;
+	public Controller() {
 	}
 
 	// Sets the view
-	void setView(View v) {
+	public void setView(View v) {
 		view = v;
+	}
+
+	// Sets model
+	public void setModel(Model m) {
+		model = m;
 	}
 
 
