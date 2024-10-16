@@ -23,11 +23,11 @@ public class PlayerPanel extends JPanel {
         player = p;
 
         // Loads text fields
-        playerID = new JTextField(String.valueOf(player.playerID));
-        playerID.setEditable(false);
-
         playerCodename = new JTextField(player.codename);
         playerCodename.setEditable(false);
+
+        playerID = new JTextField(String.valueOf(player.playerID));
+        playerID.setEditable(false);
 
         playerHardwareID = new JTextField(String.valueOf(player.hardwareID));
         playerHardwareID.setEditable(false);
