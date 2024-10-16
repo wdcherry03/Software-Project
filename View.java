@@ -106,7 +106,7 @@ public class View extends JFrame {
         // Player Add buttons
         JPanel playerEntryPanel = new JPanel(new GridLayout(2, 1));
 
-        JTextField playerEntryDialogue = new JTextField("");
+        JTextField playerEntryDialogue = new JTextField("Welcome to the player entry screen! Input information in the boxes above to get started.");
         playerEntryDialogue.setEditable(false);
 
         JPanel playerEntryButtons = new JPanel(new GridLayout(1, 4));
