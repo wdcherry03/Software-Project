@@ -49,6 +49,7 @@ public class View extends JFrame {
 	// Update function. Runs every frame
 	public void update() {
         this.repaint();
+        this.setVisible(true);
 	}
 
 	// Dumps anything on the screen
@@ -140,7 +141,7 @@ public class View extends JFrame {
                     }
                 }
 
-                else if (id % 2 == 0) {      // Odd, Red
+                else if (id % 2 == 1) {      // Odd, Red
                     for (int i = 0; i < model.greenPlayerList.size(); ++i) {
                         if (id == model.greenPlayerList.get(i).playerID) {
                             playerFound = true;
