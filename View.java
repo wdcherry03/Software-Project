@@ -48,6 +48,7 @@ public class View extends JFrame {
 
 	// Update function. Runs every frame
 	public void update() {
+        this.repaint();
 	}
 
 	// Dumps anything on the screen
@@ -191,6 +192,7 @@ public class View extends JFrame {
                         redTeamPanel.add(newPanel);
                     }
                 }
+                update();
             }
         });
         
