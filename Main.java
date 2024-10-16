@@ -28,7 +28,7 @@ public class Main extends JFrame {
 
 		// Sets up MVC components
 		model = new Model();
-		controller = new Controller();
+		controller = new Controller(model);
 		view = new View(model, controller);
 
 		// Finishes setting up MVC

@@ -20,7 +20,9 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 	public Model model;
 
 	// Constructor
-	public Controller() {
+	public Controller(Model m) 
+	{
+		model = m;
 	}
 
 	// Sets the view
@@ -42,7 +44,17 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {    }
 	public void keyTyped(KeyEvent e) {    }
 	public void keyPressed(KeyEvent e) {    }
-	public void keyReleased(KeyEvent e) {    }
+	public void keyReleased(KeyEvent e) 
+	{
+		switch(e.getKeyCode())
+		{
+			case KeyEvent.VK_F12:
+				System.out.println("You made it");
+				model.greenPlayerList.clear();
+				model.redPlayerList.clear();
+				break;
+		}
+	}
 	public void mousePressed(MouseEvent e) {    }
 	public void mouseReleased(MouseEvent e) {    }
 	public void mouseEntered(MouseEvent e) {    }
