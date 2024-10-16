@@ -33,8 +33,8 @@ public class PlayerPanel extends JPanel {
         playerHardwareID.setEditable(false);
 
         // Adds them to this panel
-        this.add(playerID);
         this.add(playerCodename);
+        this.add(playerID);
         this.add(playerHardwareID);
     }
 }
