@@ -125,15 +125,15 @@ public class View extends JFrame {
         // Adds a player when the player add button is called 
         playerAddButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                int id = Integer.parseInt(playerAddIdField.getText());
+                int hardwareId = Integer.parseInt(playerAddHardwareId.getText());
                 
                 // Checks if the id already exists
                 boolean playerFound = false;
                 int foundPlayerIndex = 0;
 
-                if (id % 2 == 0) {           // Even, Green
+                if (hardwareId % 2 == 0) {           // Even, Green
                     for (int i = 0; i < model.greenPlayerList.size(); ++i) {
-                        if (id == model.greenPlayerList.get(i).playerID) {
+                        if (hardwareId == model.greenPlayerList.get(i).hardwareID) {
                             playerFound = true;
                             foundPlayerIndex = i;
                             break;
@@ -141,9 +141,9 @@ public class View extends JFrame {
                     }
                 }
 
-                else if (id % 2 == 1) {      // Odd, Red
+                else if (hardwareId % 2 == 1) {      // Odd, Red
                     for (int i = 0; i < model.redPlayerList.size(); ++i) {
-                        if (id == model.redPlayerList.get(i).playerID) {
+                        if (hardwareId == model.redPlayerList.get(i).playerID) {
                             playerFound = true;
                             foundPlayerIndex = i;
                             break;
@@ -156,14 +156,14 @@ public class View extends JFrame {
                     playerEntryDialogue.setText("Player already Found. Using existing information...");
 
                     // Updates player list entry with the hardware ID and adds the player panel to the panel list
-                    if (id % 2 == 0) {           // Green
-                        model.greenPlayerList.get(foundPlayerIndex).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
+                    if (hardwareId % 2 == 0) {           // Green
+                        model.greenPlayerList.get(foundPlayerIndex).playerID = Integer.parseInt(playerAddIdField.getText());
                         PlayerPanel newPanel = new PlayerPanel(model.greenPlayerList.get(foundPlayerIndex));
                         greenTeamPanel.add(newPanel);
                     }
 
-                    else if (id % 2 == 1) {      // Red
-                        model.redPlayerList.get(foundPlayerIndex).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
+                    else if (hardwareId % 2 == 1) {      // Red
+                        model.redPlayerList.get(foundPlayerIndex).playerID = Integer.parseInt(playerAddIdField.getText());
                         PlayerPanel newPanel = new PlayerPanel(model.redPlayerList.get(foundPlayerIndex));
                         redTeamPanel.add(newPanel);
                     }
@@ -175,18 +175,18 @@ public class View extends JFrame {
                     // Adds to the database
                     playerEntryDialogue.setText("Player not found. Adding player to the database...");
                     String codename = playerAddNameField.getText();
-                    int hardwareId = Integer.parseInt(playerAddHardwareId.getText());
-                    model.addPlayerPSQL(id, codename, hardwareId);
+                    int playerId = Integer.parseInt(playerAddIdField.getText());
+                    model.addPlayerPSQL(playerId, codename, hardwareId);
 
                     // Adds to the player list and adds a new panel to the panel list
-                    Player newPlayer = new Player(id, codename, hardwareId);
+                    Player newPlayer = new Player(playerId, codename, hardwareId);
                     PlayerPanel newPanel = new PlayerPanel(newPlayer);
 
-                    if (id % 2 == 0) {           // Green
+                    if (hardwareId % 2 == 0) {           // Green
                         model.greenPlayerList.add(newPlayer);
                         greenTeamPanel.add(newPanel);
                     }
-                    else if (id % 2 == 1) {      // Red
+                    else if (hardwareId % 2 == 1) {      // Red
                         model.redPlayerList.add(newPlayer);
                         redTeamPanel.add(newPanel);
                     }
