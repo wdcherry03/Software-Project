@@ -100,7 +100,7 @@ public class Model {
 			Statement st = database.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM players");
 
-			System.out.println("Got Players: ");
+			System.out.println("Got Players, populating team lists: ");
 			while (rs.next()) {
 				System.out.println(rs.getString(2));
 			}
@@ -128,9 +128,23 @@ public class Model {
 
 			// Populates list with database entries
 			while (rs.next()) {
-				System.out.println(rs.getString(1));
-				System.out.println(rs.getString(2));
-				System.out.println("");
+				
+				// Gets Player information from query
+				int playerID = Integer.parseInt(rs.getString(1));
+				String playerName = rs.getString(2);
+				System.out.println(playerName);
+
+				Player newPlayer = new Player(playerID, playerName, -1);		// Initialized with id -1. Set actual ID later
+				
+				// Even ID entries go to the green team
+				if (playerID % 2 == 0) {
+					greenPlayerList.add(newPlayer);
+				}
+
+				// Odd ID entries go to the red team
+				else if (playerID % 2 == 1) {
+					redPlayerList.add(newPlayer);
+				}
 			}
 
 			st.close();
