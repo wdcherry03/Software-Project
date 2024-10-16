@@ -129,7 +129,7 @@ public class View extends JFrame {
                 
                 // Checks if the id already exists
                 boolean playerFound = false;
-                int foundPlayerId = 0;
+                int foundPlayerIndex = 0;
 
                 if (id % 2 == 0) {           // Even, Green
                     for (int i = 0; i < model.greenPlayerList.size(); ++i) {
