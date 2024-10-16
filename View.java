@@ -48,7 +48,6 @@ public class View extends JFrame {
 
 	// Update function. Runs every frame
 	public void update() {
-        runEntry();
 	}
 
 	// Dumps anything on the screen
@@ -103,20 +102,95 @@ public class View extends JFrame {
         buttonPanel.add(new JButton("Clear Game"));
 
         // Player Add buttons
-        JPanel playerEntryPanel = new JPanel(new GridLayout(1, 3));
+        JPanel playerEntryPanel = new JPanel(new GridLayout(2, 1));
+
+        JTextField playerEntryDialogue = new JTextField("");
+        playerEntryDialogue.setEditable(false);
+
+        JPanel playerEntryButtons = new JPanel(new GridLayout(1, 4));
         JButton playerAddButton = new JButton("Add Player");
         JTextField playerAddIdField = new JTextField("Enter ID Here");
         JTextField playerAddNameField = new JTextField("Enter Player Codename Here");
-        playerEntryPanel.add(playerAddButton);
-        playerEntryPanel.add(playerAddNameField);
-        playerEntryPanel.add(playerAddIdField);
+        JTextField playerAddHardwareId = new JTextField("Enter Hardware Id Here");
+        playerEntryButtons.add(playerAddButton);
+        playerEntryButtons.add(playerAddNameField);
+        playerEntryButtons.add(playerAddIdField);
+        playerEntryButtons.add(playerAddHardwareId);
+
+        playerEntryPanel.add(playerEntryButtons);
+        playerEntryPanel.add(playerEntryDialogue);
 
         // Adds a player when the player add button is called 
         playerAddButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                String codename = playerAddNameField.getText();
                 int id = Integer.parseInt(playerAddIdField.getText());
-                model.addPlayerPSQL(id, codename);
+                
+                // Checks if the id already exists
+                boolean playerFound = false;
+                int foundPlayerId = 0;
+
+                if (id % 2 == 0) {           // Even, Green
+                    for (int i = 0; i < model.greenPlayerList.size(); ++i) {
+                        if (id == model.greenPlayerList.get(i).playerID) {
+                            playerFound = true;
+                            foundPlayerId = i;
+                            break;
+                        }
+                    }
+                }
+
+                else if (id % 2 == 0) {      // Odd, Red
+                    for (int i = 0; i < model.greenPlayerList.size(); ++i) {
+                        if (id == model.greenPlayerList.get(i).playerID) {
+                            playerFound = true;
+                            foundPlayerId = i;
+                            break;
+                        }
+                    }
+                }
+
+                // If the player exists, uses already existing player data and adds hardware id
+                if (playerFound) {
+                    playerEntryDialogue.setText("Player already Found. Using existing information...");
+
+                    // Updates player list entry with the hardware ID and adds the player panel to the panel list
+                    
+
+                    if (id % 2 == 0) {           // Green
+                        PlayerPanel newPanel = new PlayerPanel(model.greenPlayerList.get(foundPlayerId));
+                        model.greenPlayerList.get(foundPlayerId).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
+                        greenTeamPanel.add(newPanel);
+                    }
+
+                    else if (id % 2 == 1) {      // Red
+                    PlayerPanel newPanel = new PlayerPanel(model.redPlayerList.get(foundPlayerId));
+                        model.redPlayerList.get(foundPlayerId).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
+                        redTeamPanel.add(newPanel);
+                    }
+                }
+
+                // If the player doesn't exist, adds them to the correct player list and the database
+                else {
+
+                    // Adds to the database
+                    playerEntryDialogue.setText("Player not found. Adding player to the database...");
+                    String codename = playerAddNameField.getText();
+                    int hardwareId = Integer.parseInt(playerAddHardwareId.getText());
+                    model.addPlayerPSQL(id, codename, hardwareId);
+
+                    // Adds to the player list and adds a new panel to the panel list
+                    Player newPlayer = new Player(id, codename, hardwareId);
+                    PlayerPanel newPanel = new PlayerPanel(newPlayer);
+
+                    if (id % 2 == 0) {           // Green
+                        model.greenPlayerList.add(newPlayer);
+                        greenTeamPanel.add(newPanel);
+                    }
+                    else if (id % 2 == 1) {      // Red
+                        model.redPlayerList.add(newPlayer);
+                        redTeamPanel.add(newPanel);
+                    }
+                }
             }
         });
         

@@ -11,6 +11,9 @@ import java.net.SocketException;
 
 public class Model {
 
+	// MVC
+	View view;
+
 	// Variables
 	public Connection database;
 	public udpServer server;
@@ -27,7 +30,7 @@ public class Model {
 	
 	// Constructor
 	public Model() {
-
+		
 		// Initialize Varables
 		redID = 11;
 		greenID = 12;
@@ -72,18 +75,26 @@ public class Model {
 		}
 	}
 
-	// Adds a player to the database table
+	// Adds a player to the database table. No checks
 	// Returns true on successful insert, false otherwise
-	public boolean addPlayerPSQL(int playerId, String codename) {
+	public boolean addPlayerPSQL(int playerId, String codename, int hardwareID) {
 		try {
+
+			// Adds the player to the database
 			Statement st = database.createStatement();
 			String query = "INSERT INTO players (id, codename) VALUES (" + playerId + ", '" + codename + "')";
-			System.out.println(query);
-
-			input = Integer.toString(redID++);
-
 			st.executeUpdate(query);
 			st.close();
+
+			// Adds the player to the correct player list
+			Player newPlayer = new Player(playerId, codename, hardwareID);
+			if (playerId % 2 == 0) {			// Even, Green
+				greenPlayerList.add(newPlayer);
+			}
+			else if (playerId % 2 == 1) {		// Odd, Red
+				redPlayerList.add(newPlayer);
+			}
+
 			return true;
 		}
 		catch (SQLException e) {
@@ -153,5 +164,10 @@ public class Model {
 			System.out.println("ERROR retrieving list of players from database [fillTeamLists()]");
 			System.out.println(e.getMessage());
 		}
+	}
+
+	// MVC components
+	public void setView(View v) {
+		view = v;
 	}
 }
