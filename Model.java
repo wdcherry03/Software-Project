@@ -30,7 +30,7 @@ public class Model {
 	
 	// Constructor
 	public Model() {
-		
+
 		// Initialize Varables
 		redID = 11;
 		greenID = 12;
@@ -48,6 +48,18 @@ public class Model {
 
 			// Fills player lists with database entries
 			fillTeamLists();
+
+			// Prints players as a test
+			printPlayersPSQL();
+			System.out.println("Red Team: ");
+			String listString = redPlayerList.stream().map(Object::toString)
+                        .collect(Collectors.joining(", "));
+			System.out.println(listString);
+
+			System.out.println("Green Team: ");
+			String listString = greenPlayerList.stream().map(Object::toString)
+                        .collect(Collectors.joining(", "));
+			System.out.println(listString);
 		} 
 		catch (SQLException e) {
 			System.out.println("ERROR connecting to database, skipping connection step");

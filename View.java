@@ -155,8 +155,6 @@ public class View extends JFrame {
                     playerEntryDialogue.setText("Player already Found. Using existing information...");
 
                     // Updates player list entry with the hardware ID and adds the player panel to the panel list
-                    
-
                     if (id % 2 == 0) {           // Green
                         PlayerPanel newPanel = new PlayerPanel(model.greenPlayerList.get(foundPlayerId));
                         model.greenPlayerList.get(foundPlayerId).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
