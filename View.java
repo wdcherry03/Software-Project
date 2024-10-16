@@ -142,8 +142,8 @@ public class View extends JFrame {
                 }
 
                 else if (id % 2 == 1) {      // Odd, Red
-                    for (int i = 0; i < model.greenPlayerList.size(); ++i) {
-                        if (id == model.greenPlayerList.get(i).playerID) {
+                    for (int i = 0; i < model.redPlayerList.size(); ++i) {
+                        if (id == model.redPlayerList.get(i).playerID) {
                             playerFound = true;
                             foundPlayerId = i;
                             break;
