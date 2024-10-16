@@ -135,7 +135,7 @@ public class View extends JFrame {
                     for (int i = 0; i < model.greenPlayerList.size(); ++i) {
                         if (id == model.greenPlayerList.get(i).playerID) {
                             playerFound = true;
-                            foundPlayerId = i;
+                            foundPlayerIndex = i;
                             break;
                         }
                     }
@@ -145,7 +145,7 @@ public class View extends JFrame {
                     for (int i = 0; i < model.redPlayerList.size(); ++i) {
                         if (id == model.redPlayerList.get(i).playerID) {
                             playerFound = true;
-                            foundPlayerId = i;
+                            foundPlayerIndex = i;
                             break;
                         }
                     }
@@ -157,14 +157,14 @@ public class View extends JFrame {
 
                     // Updates player list entry with the hardware ID and adds the player panel to the panel list
                     if (id % 2 == 0) {           // Green
-                        PlayerPanel newPanel = new PlayerPanel(model.greenPlayerList.get(foundPlayerId));
-                        model.greenPlayerList.get(foundPlayerId).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
+                        model.greenPlayerList.get(foundPlayerIndex).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
+                        PlayerPanel newPanel = new PlayerPanel(model.greenPlayerList.get(foundPlayerIndex));
                         greenTeamPanel.add(newPanel);
                     }
 
                     else if (id % 2 == 1) {      // Red
-                    PlayerPanel newPanel = new PlayerPanel(model.redPlayerList.get(foundPlayerId));
-                        model.redPlayerList.get(foundPlayerId).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
+                        model.redPlayerList.get(foundPlayerIndex).hardwareID = Integer.parseInt(playerAddHardwareId.getText());
+                        PlayerPanel newPanel = new PlayerPanel(model.redPlayerList.get(foundPlayerIndex));
                         redTeamPanel.add(newPanel);
                     }
                 }
