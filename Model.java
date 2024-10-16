@@ -52,14 +52,14 @@ public class Model {
 			// Prints players as a test
 			printPlayersPSQL();
 			System.out.println("Red Team: ");
-			String listString = redPlayerList.stream().map(Object::toString)
-                        .collect(Collectors.joining(", "));
-			System.out.println(listString);
+			for (int i = 0; i < redPlayerList.size(); ++i) {
+				System.out.println(redPlayerList.get(i).playerID + redPlayerList.get(i).codename + redPlayerList.get(i).hardwareID);
+			}
 
 			System.out.println("Green Team: ");
-			String listString = greenPlayerList.stream().map(Object::toString)
-                        .collect(Collectors.joining(", "));
-			System.out.println(listString);
+			for (int i = 0; i < greenPlayerList.size(); ++i) {
+				System.out.println(greenPlayerList.get(i).playerID + redPlayerList.get(i).codename + redPlayerList.get(i).hardwareID);
+			}
 		} 
 		catch (SQLException e) {
 			System.out.println("ERROR connecting to database, skipping connection step");
