@@ -107,7 +107,9 @@ public class Model {
 	}
 
 	// Adds a player to the correct team list and to the main players list
-	public void addPlayerToLists(Player player) {
+	// Returns true on successful addition
+	// Returns false if the player already exists.
+	public boolean addPlayerToLists(Player player) {
 		allPlayersList.add(player);
 
 		int hardwareID = player.hardwareID;
@@ -117,6 +119,19 @@ public class Model {
 		else if (hardwareID % 2 == 1) {		// Odd, Red
 			redPlayerList.add(player);
 		}
+		return true;
+	}
+
+	// Checks if a player with matching id is located in the player lists
+	// Returns the index in the players list if the player exists
+	// Returns -1 if the player does not exist
+	public int checkPlayerListByID(int id) {
+		for (int i = 0; i < allPlayersList.size(); ++i) {
+			if (allPlayersList.get(i).playerID == id) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	// Queries for the entire database table and prints the player codenames
