@@ -34,8 +34,12 @@ public class Main extends JFrame {
 		// Finishes setting up MVC
 		view.addMouseListener(controller);
 		view.addKeyListener(controller);
+		this.addKeyListener(controller);
 
 		model.setView(view);
+
+		controller.setView(view);
+		controller.setModel(model);
 	}
 
 	// Core functional loop
