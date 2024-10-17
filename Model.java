@@ -157,7 +157,7 @@ public class Model {
 				String playerName = rs.getString(2);
 				System.out.println(playerName);
 
-				Player newPlayer = new Player(playerID, playerName, -1);		// Initialized with id -1. Set actual ID later
+				Player newPlayer = new Player(playerID, playerName, playerID);		// Initialized with hardware ID = id. Change later
 				
 				// Even ID entries go to the green team
 				if (playerID % 2 == 0) {
