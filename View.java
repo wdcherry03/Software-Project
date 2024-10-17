@@ -16,6 +16,7 @@ public class View extends JFrame {
 	public Model model;
 	public Controller controller;
 	public JFrame frame;
+    public String state;
 
 	// Constructor
 	public View(Model m, Controller c) {
@@ -44,6 +45,7 @@ public class View extends JFrame {
         }
 
 		// Switch to entry screen
+        state = "entry";
 		this.runEntry();
 	}
 
@@ -55,7 +57,7 @@ public class View extends JFrame {
 
 	// Dumps anything on the screen
 	public void dumpScreen() {
-
+        this.removeAll();
 	}
 
 	// Runs the entry screen
@@ -168,7 +170,7 @@ public class View extends JFrame {
 
                     String codename = playerAddNameField.getText();
                     Player newPlayer = new Player(playerId, codename, hardwareId);
-                    model.addPlayerPSQL(playerId, codename, hardwareId);
+                    // model.addPlayerPSQL(playerId, codename, hardwareId);
                     model.addPlayerToLists(newPlayer);
 
                     // Adds to the player to the correct panel
@@ -184,6 +186,21 @@ public class View extends JFrame {
                 update();
             }
         });
+        playerAddButton.addKeyListener(controller);
+
+        // Adds any existing players in the player lists to the player panels
+
+        // Red
+        for (int i = 0; i < model.redPlayerList.size(); ++i) {
+            PlayerPanel newPanel = new PlayerPanel(model.redPlayerList.get(i));
+            redTeamPanel.add(newPanel);
+        }
+
+        // Green
+        for (int i = 0; i < model.greenPlayerList.size(); ++i) {
+            PlayerPanel newPanel = new PlayerPanel(model.greenPlayerList.get(i));
+            redTeamPanel.add(newPanel);
+        }
         
         // Add panels to frame
         this.add(mainPanel, BorderLayout.CENTER);
@@ -192,9 +209,6 @@ public class View extends JFrame {
 
         this.setVisible(true);
         this.repaint();
+        // this.
 	}
-
-    public void runGame() {
-        // Create game panel
-    }
 }

@@ -37,6 +37,7 @@ public class Model {
 
 		redPlayerList = new ArrayList<Player>();
 		greenPlayerList = new ArrayList<Player>();
+		allPlayersList = new ArrayList<Player>();
 
 		// Sets up connection to database
 		String url = "jdbc:postgresql://localhost/photon";

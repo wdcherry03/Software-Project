@@ -34,7 +34,6 @@ public class Main extends JFrame {
 		// Finishes setting up MVC
 		view.addMouseListener(controller);
 		view.addKeyListener(controller);
-		this.addKeyListener(controller);
 
 		model.setView(view);
 
