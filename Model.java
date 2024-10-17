@@ -100,10 +100,10 @@ public class Model {
 
 			// Adds the player to the correct player list
 			Player newPlayer = new Player(playerId, codename, hardwareID);
-			if (playerId % 2 == 0) {			// Even, Green
+			if (hardwareID % 2 == 0) {			// Even, Green
 				greenPlayerList.add(newPlayer);
 			}
-			else if (playerId % 2 == 1) {		// Odd, Red
+			else if (hardwareID % 2 == 1) {		// Odd, Red
 				redPlayerList.add(newPlayer);
 			}
 
