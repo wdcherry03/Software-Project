@@ -25,8 +25,7 @@ public class Model {
 	// Player Lists
 	public ArrayList<Player> redPlayerList;
 	public ArrayList<Player> greenPlayerList;
-
-
+	public ArrayList<Player> allPlayersList;
 	
 	// Constructor
 	public Model() {
@@ -47,7 +46,7 @@ public class Model {
 			database = DriverManager.getConnection(url, "student", "student");
 
 			// Fills player lists with database entries
-			fillTeamLists();
+			fillTeamListsFromDatabase();
 
 			// Prints players as a test
 			printPlayersPSQL();
@@ -98,21 +97,25 @@ public class Model {
 			st.executeUpdate(query);
 			st.close();
 
-			// Adds the player to the correct player list
-			Player newPlayer = new Player(playerId, codename, hardwareID);
-			if (hardwareID % 2 == 0) {			// Even, Green
-				greenPlayerList.add(newPlayer);
-			}
-			else if (hardwareID % 2 == 1) {		// Odd, Red
-				redPlayerList.add(newPlayer);
-			}
-
 			return true;
 		}
 		catch (SQLException e) {
 			System.out.println("ERROR inserting player into database");
 			System.out.println(e.getMessage());
 			return false;
+		}
+	}
+
+	// Adds a player to the correct team list and to the main players list
+	public void addPlayerToLists(Player player) {
+		allPlayersList.add(player);
+
+		int hardwareID = player.hardwareID;
+		if (hardwareID % 2 == 0) {			// Even, Green
+			greenPlayerList.add(player);
+		}
+		else if (hardwareID % 2 == 1) {		// Odd, Red
+			redPlayerList.add(player);
 		}
 	}
 
@@ -123,7 +126,7 @@ public class Model {
 			Statement st = database.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM players");
 
-			System.out.println("Got Players, populating team lists: ");
+			System.out.println("Got Players, Printing Players: ");
 			while (rs.next()) {
 				System.out.println(rs.getString(2));
 			}
@@ -137,7 +140,7 @@ public class Model {
 	}
 
 	// Dumps red and green lists in memory and replaces it with ones in the database
-	public void fillTeamLists() {
+	public void fillTeamListsFromDatabase() {
 		try {
 
 			// Queries PSQL Database
@@ -148,6 +151,7 @@ public class Model {
 			// Dumps current team lists
 			redPlayerList = new ArrayList<Player>();
 			greenPlayerList = new ArrayList<Player>();
+			allPlayersList = new ArrayList<Player>();
 
 			// Populates list with database entries
 			while (rs.next()) {
@@ -157,17 +161,8 @@ public class Model {
 				String playerName = rs.getString(2);
 				System.out.println(playerName);
 
-				Player newPlayer = new Player(playerID, playerName, playerID);		// Initialized with hardware ID = id. Change later
-				
-				// Even ID entries go to the green team
-				if (playerID % 2 == 0) {
-					greenPlayerList.add(newPlayer);
-				}
-
-				// Odd ID entries go to the red team
-				else if (playerID % 2 == 1) {
-					redPlayerList.add(newPlayer);
-				}
+				Player newPlayer = new Player(playerID, playerName, -1);		// Initialized with hardware ID = -1
+				allPlayersList.add(newPlayer);
 			}
 
 			st.close();
