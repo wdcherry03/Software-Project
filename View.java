@@ -139,6 +139,7 @@ public class View extends JFrame {
                     // Checks if the player is already added
                     if (model.checkTeamListsByID(playerId)) {
                         playerEntryDialogue.setText("Player already added. Not adding the requested player.");
+                        return;
                     }
 
                     // Updates player list entry with the hardware ID
