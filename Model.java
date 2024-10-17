@@ -46,19 +46,8 @@ public class Model {
 			database = DriverManager.getConnection(url, "student", "student");
 
 			// Fills player lists with database entries
-			fillTeamListsFromDatabase();
-
-			// Prints players as a test
+			fetchPlayersFromDatabase();
 			printPlayersPSQL();
-			System.out.println("Red Team: ");
-			for (int i = 0; i < redPlayerList.size(); ++i) {
-				System.out.println(redPlayerList.get(i).playerID + redPlayerList.get(i).codename + redPlayerList.get(i).hardwareID);
-			}
-
-			System.out.println("Green Team: ");
-			for (int i = 0; i < greenPlayerList.size(); ++i) {
-				System.out.println(greenPlayerList.get(i).playerID + redPlayerList.get(i).codename + redPlayerList.get(i).hardwareID);
-			}
 		} 
 		catch (SQLException e) {
 			System.out.println("ERROR connecting to database, skipping connection step");
@@ -165,7 +154,7 @@ public class Model {
 
 			System.out.println("Got Players, Printing Players: ");
 			while (rs.next()) {
-				System.out.println(rs.getString(2));
+				System.out.println("id: " + rs.getString(1) + ", codename: " + rs.getString(2));
 			}
 
 			st.close();
@@ -177,7 +166,7 @@ public class Model {
 	}
 
 	// Dumps red and green lists in memory and replaces it with ones in the database
-	public void fillTeamListsFromDatabase() {
+	public void fetchPlayersFromDatabase() {
 		try {
 
 			// Queries PSQL Database
@@ -205,7 +194,7 @@ public class Model {
 			st.close();
 		}
 		catch (SQLException e) {
-			System.out.println("ERROR retrieving list of players from database [fillTeamLists()]");
+			System.out.println("ERROR retrieving list of players from database [fetchPlayersFromDatabase()]");
 			System.out.println(e.getMessage());
 		}
 	}
