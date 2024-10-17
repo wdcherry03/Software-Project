@@ -18,12 +18,13 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 	// MVC Components
 	public View view;
 	public Model model;
-	public boolean remove = false;
+	public boolean remove;
 
 	// Constructor
 	public Controller(Model m) 
 	{
 		model = m;
+		remove = false;
 	}
 
 	// Sets the view
@@ -45,6 +46,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 			model.greenPlayerList.clear();
 			model.redPlayerList.clear();
 			System.out.println("All good");
+			remove = false;
 		}
 	}
 
@@ -56,7 +58,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 	{
 		switch(e.getKeyCode())
 		{
-			case KeyEvent.VK_F12: remove = true; // Attempting to code f12 key to clear player entries
+			case KeyEvent.VK_F12: remove = true; break; // Attempting to code f12 key to clear player entries
 		}
 	}
 	public void mousePressed(MouseEvent e) {    }

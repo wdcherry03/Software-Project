@@ -23,6 +23,7 @@ public class View extends JFrame {
 		// MVC
 		model = m;
 		controller = c;
+        this.addKeyListener(c);
 
 		// Set JFrame data
 		this.setTitle("Laser Tag");
