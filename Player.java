@@ -18,4 +18,11 @@ public class Player {
       codename = Codename;
       hardwareID = Integer.parseInt(HardwareID);
    }
+
+   // Copy constructor
+   public Player(Player p) {
+      playerID = p.playerID;
+      codename = p.codename;
+      hardwareID = p.hardwareID;
+   }
 }
