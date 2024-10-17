@@ -18,6 +18,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 	// MVC Components
 	public View view;
 	public Model model;
+	public boolean remove = false;
 
 	// Constructor
 	public Controller(Model m) 
@@ -37,7 +38,14 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 
 
 	// Update Function. Runs Every Frame	
-	public void update() {
+	public void update() 
+	{
+		if(remove)
+		{
+			model.greenPlayerList.clear();
+			model.redPlayerList.clear();
+			System.out.println("All good");
+		}
 	}
 
 	// Overrides some methods so that the program compiles correctly.
@@ -48,11 +56,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 	{
 		switch(e.getKeyCode())
 		{
-			case KeyEvent.VK_F12:
-				System.out.println("You made it");
-				model.greenPlayerList.clear();
-				model.redPlayerList.clear();
-				break;
+			case KeyEvent.VK_F12: remove = true; // Attempting to code f12 key to clear player entries
 		}
 	}
 	public void mousePressed(MouseEvent e) {    }
