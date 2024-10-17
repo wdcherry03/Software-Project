@@ -187,4 +187,8 @@ public class View extends JFrame {
         this.setVisible(true);
         this.repaint();
 	}
+
+    public void runGame() {
+        // Create game panel
+    }
 }
