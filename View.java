@@ -134,7 +134,12 @@ public class View extends JFrame {
 
                 // If the player exists, uses already existing player data and adds hardware id
                 if (foundPlayerIndex >= 0) {
-                    playerEntryDialogue.setText("Player already Found. Using existing information...");
+                    playerEntryDialogue.setText("Player already found. Using existing information...");
+
+                    // Checks if the player is already added
+                    if (model.checkTeamListsByID(playerId)) {
+                        playerEntryDialogue.setText("Player already added. Not adding the requested player.");
+                    }
 
                     // Updates player list entry with the hardware ID
                     Player updatedPlayer = new Player(model.allPlayersList.get(foundPlayerIndex));

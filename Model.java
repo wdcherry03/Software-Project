@@ -122,7 +122,7 @@ public class Model {
 		return true;
 	}
 
-	// Checks if a player with matching id is located in the player lists
+	// Checks if a player with matching id is located in the all player list
 	// Returns the index in the players list if the player exists
 	// Returns -1 if the player does not exist
 	public int checkPlayerListByID(int id) {
@@ -132,6 +132,28 @@ public class Model {
 			}
 		}
 		return -1;
+	}
+
+	// Checks if a player with a matching id is located in the red or green player lists
+	// Returns true if it exists
+	// Returns false otherwise
+	public boolean checkTeamListsByID(int id) {
+
+		// Check Red
+		for (int i = 0; i < redPlayerList.size(); ++i) {
+			if (redPlayerList.get(i).playerID == id) {
+				return true;
+			}
+		}
+
+		// Check Green
+		for (int i = 0; i < greenPlayerList.size(); ++i) {
+			if (greenPlayerList.get(i).playerID == id) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	// Queries for the entire database table and prints the player codenames
