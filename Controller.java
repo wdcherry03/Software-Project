@@ -59,6 +59,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 		switch(e.getKeyCode())
 		{
 			case KeyEvent.VK_F12: remove = true; break; // Attempting to code f12 key to clear player entries
+			case KeyEvent.VK_F5: view.runGame(); break; // Go to gameplay screen
 		}
 	}
 	public void mousePressed(MouseEvent e) {    }

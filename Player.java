@@ -4,12 +4,14 @@ public class Player {
    public int playerID;
    public String codename;
    public int hardwareID;
+   public int score;
 
    // Constructor
    public Player(int PlayerID, String Codename, int HardwareID) {
       playerID = PlayerID;
       codename = Codename;
       hardwareID = HardwareID;
+      score = 0;
    }
 
    // Alternate instructor. Automatically converts Strings to Integers
@@ -17,6 +19,7 @@ public class Player {
       playerID = Integer.parseInt(PlayerID);
       codename = Codename;
       hardwareID = Integer.parseInt(HardwareID);
+      score = 0;
    }
 
    // Copy constructor
@@ -24,5 +27,6 @@ public class Player {
       playerID = p.playerID;
       codename = p.codename;
       hardwareID = p.hardwareID;
+      score = p.score;
    }
 }

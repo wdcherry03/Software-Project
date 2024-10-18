@@ -17,6 +17,7 @@ public class View extends JFrame {
 	public Controller controller;
 	public JFrame frame;
     public String state;
+    public javax.swing.Timer gameTimer; 
 
 	// Constructor
 	public View(Model m, Controller c) {
@@ -211,4 +212,122 @@ public class View extends JFrame {
         this.repaint();
         // this.
 	}
+
+    public void runGame() {
+        // Clears JFrame
+        this.getContentPane().removeAll();
+    
+        // Panel for red and green teams' scoreboards
+        JPanel redTeamPanel = new JPanel(new GridLayout(21, 1)); // 21 rows, 20 players
+        JPanel greenTeamPanel = new JPanel(new GridLayout(21, 1)); // 21 rows, 20 players
+    
+        // Add table headers for RED Team
+        JPanel redTeamHeader = new JPanel(new GridLayout(1, 3));
+        redTeamHeader.add(new JLabel("PLAYER NAME", JLabel.LEFT));
+        redTeamHeader.add(new JLabel("PLAYER ID", JLabel.LEFT));
+        redTeamHeader.add(new JLabel("SCORE", JLabel.LEFT));
+        redTeamHeader.setBackground(Color.RED);
+    
+        redTeamPanel.add(redTeamHeader);
+        redTeamPanel.setBackground(Color.RED);
+    
+        // Add table headers for GREEN Team
+        JPanel greenTeamHeader = new JPanel(new GridLayout(1, 3));
+        greenTeamHeader.add(new JLabel("PLAYER NAME", JLabel.LEFT));
+        greenTeamHeader.add(new JLabel("PLAYER ID", JLabel.LEFT));
+        greenTeamHeader.add(new JLabel("SCORE", JLabel.LEFT));
+        greenTeamHeader.setBackground(Color.GREEN);
+    
+        greenTeamPanel.add(greenTeamHeader);
+        greenTeamPanel.setBackground(Color.GREEN);
+    
+        // Initialize total scores for both teams
+        int redTotalScore = 0;
+        int greenTotalScore = 0;
+    
+        // Populate red team players with scores and accumulate the total score
+        for (Player redPlayer : model.redPlayerList) {
+            JPanel playerRow = new JPanel(new GridLayout(1, 3));
+            playerRow.add(new JLabel(redPlayer.codename, JLabel.LEFT));
+            playerRow.add(new JLabel(String.valueOf(redPlayer.playerID), JLabel.LEFT));
+            playerRow.add(new JLabel(String.valueOf(redPlayer.score), JLabel.LEFT)); // Assuming Player class has 'score'
+            redTeamPanel.add(playerRow);
+            redTotalScore += redPlayer.score; // Add player's score to the cumulative score
+        }
+    
+        // Populate green team players with scores and accumulate the total score
+        for (Player greenPlayer : model.greenPlayerList) {
+            JPanel playerRow = new JPanel(new GridLayout(1, 3));
+            playerRow.add(new JLabel(greenPlayer.codename, JLabel.LEFT));
+            playerRow.add(new JLabel(String.valueOf(greenPlayer.playerID), JLabel.LEFT));
+            playerRow.add(new JLabel(String.valueOf(greenPlayer.score), JLabel.LEFT)); // Assuming Player class has 'score'
+            greenTeamPanel.add(playerRow);
+            greenTotalScore += greenPlayer.score; // Add player's score to the cumulative score
+        }
+    
+        // Add cumulative score row for the RED team
+        JPanel redTotalScoreRow = new JPanel(new GridLayout(1, 3));
+        redTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
+        redTotalScoreRow.add(new JLabel("", JLabel.LEFT)); // Empty label for the Player ID column
+        redTotalScoreRow.add(new JLabel(String.valueOf(redTotalScore), JLabel.LEFT));
+        redTeamPanel.add(redTotalScoreRow);
+    
+        // Add cumulative score row for the GREEN team
+        JPanel greenTotalScoreRow = new JPanel(new GridLayout(1, 3));
+        greenTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
+        greenTotalScoreRow.add(new JLabel("", JLabel.LEFT)); // Empty label for the Player ID column
+        greenTotalScoreRow.add(new JLabel(String.valueOf(greenTotalScore), JLabel.LEFT));
+        greenTeamPanel.add(greenTotalScoreRow);
+    
+        // Create panel to hold both team panels side by side
+        JPanel teamsPanel = new JPanel(new GridLayout(1, 2));
+        teamsPanel.add(redTeamPanel);
+        teamsPanel.add(greenTeamPanel);
+    
+        // Game log panel
+        JPanel gameLogPanel = new JPanel(new BorderLayout());
+        JTextArea gameLogArea = new JTextArea(10, 50);
+        gameLogArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(gameLogArea);
+        gameLogPanel.add(scrollPane, BorderLayout.CENTER);
+        gameLogPanel.setBorder(BorderFactory.createTitledBorder("Game Log"));
+    
+        // Timer Panel
+        JPanel timerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel timerLabel = new JLabel("06:00");  // Timer starts at 06:00 (6 minutes)
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        timerPanel.add(timerLabel);
+        timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
+    
+        // Timer functionality for countdown (6 minutes = 360 seconds)
+        gameTimer = new javax.swing.Timer(1000, new ActionListener() {
+            int secondsRemaining = 360;
+    
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (secondsRemaining > 0) {
+                    secondsRemaining--;
+                    int minutes = secondsRemaining / 60;
+                    int remainingSeconds = secondsRemaining % 60;
+                    timerLabel.setText(String.format("%02d:%02d", minutes, remainingSeconds));
+                } else {
+                    gameTimer.stop(); // Stop the timer when it reaches 0
+                    timerLabel.setText("00:00");
+                    // You can add logic here to handle the end of the game (e.g., show a message, stop the game, etc.)
+                }
+            }
+        });
+        gameTimer.start();  // Starts the countdown timer
+    
+        // Layout for the main game screen
+        JPanel gameScreen = new JPanel(new BorderLayout());
+        gameScreen.add(teamsPanel, BorderLayout.NORTH);
+        gameScreen.add(gameLogPanel, BorderLayout.CENTER);
+        gameScreen.add(timerPanel, BorderLayout.SOUTH);
+    
+        // Add the entire game screen to the JFrame
+        this.add(gameScreen);
+        this.revalidate();
+        this.repaint();
+    }
 }
