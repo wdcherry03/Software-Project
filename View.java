@@ -18,6 +18,7 @@ public class View extends JFrame {
 	public JFrame frame;
     public String state;
     public javax.swing.Timer gameTimer; 
+    public ArrayList<PlayerPanel> entries;
 
 	// Constructor
 	public View(Model m, Controller c) {
@@ -25,6 +26,7 @@ public class View extends JFrame {
 		// MVC
 		model = m;
 		controller = c;
+        entries = new ArrayList<PlayerPanel>();
         this.addKeyListener(c);
 
 		// Set JFrame data
@@ -161,6 +163,7 @@ public class View extends JFrame {
                         redTeamPanel.add(newPanel);
                         model.redPlayerList.add(updatedPlayer);
                     }
+                    entries.add(newPanel);
                 }
 
                 // If the player doesn't exist, adds them to the correct player list and the database
@@ -171,7 +174,7 @@ public class View extends JFrame {
 
                     String codename = playerAddNameField.getText();
                     Player newPlayer = new Player(playerId, codename, hardwareId);
-                    model.addPlayerPSQL(playerId, codename, hardwareId);
+                    // model.addPlayerPSQL(playerId, codename, hardwareId);
                     model.addPlayerToLists(newPlayer);
 
                     // Adds to the player to the correct panel
@@ -183,6 +186,7 @@ public class View extends JFrame {
                     else if (hardwareId % 2 == 1) {      // Red
                         redTeamPanel.add(newPanel);
                     }
+                    entries.add(newPanel);
                 }
                 update();
             }
@@ -195,12 +199,14 @@ public class View extends JFrame {
         for (int i = 0; i < model.redPlayerList.size(); ++i) {
             PlayerPanel newPanel = new PlayerPanel(model.redPlayerList.get(i));
             redTeamPanel.add(newPanel);
+            entries.add(newPanel); // Adds panels to arrayList
         }
 
         // Green
         for (int i = 0; i < model.greenPlayerList.size(); ++i) {
             PlayerPanel newPanel = new PlayerPanel(model.greenPlayerList.get(i));
             redTeamPanel.add(newPanel);
+            entries.add(newPanel); // Adds panels to arrayList
         }
         
         // Add panels to frame
@@ -209,9 +215,27 @@ public class View extends JFrame {
         this.add(playerEntryPanel, BorderLayout.SOUTH);
 
         this.setVisible(true);
+        // Attempting to remove all player panels upon keypress
+        if(controller.remove)
+        {
+            for(int i = 0; i < entries.size(); i++)
+            {
+                entries.get(i).removeAll();
+                entries.get(i).setVisible(false);
+            }
+        }
         this.repaint();
         // this.
 	}
+
+    // Function to clear all arrayLists upon keypress
+    public void clearLists()
+    {
+        entries.clear();
+        model.allPlayersList.clear();
+        model.redPlayerList.clear();
+        model.greenPlayerList.clear();
+    }
 
     public void runGame() {
         // Clears JFrame

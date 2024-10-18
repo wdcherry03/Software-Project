@@ -43,8 +43,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 	{
 		if(remove)
 		{
-			model.greenPlayerList.clear();
-			model.redPlayerList.clear();
+			view.clearLists();
 			System.out.println("All good");
 			remove = false;
 		}
@@ -58,7 +57,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 	{
 		switch(e.getKeyCode())
 		{
-			case KeyEvent.VK_F12: remove = true; break; // Attempting to code f12 key to clear player entries
+			case KeyEvent.VK_F12: remove = true; break; // Clear player entries
 			case KeyEvent.VK_F5: view.runGame(); break; // Go to gameplay screen
 		}
 	}
