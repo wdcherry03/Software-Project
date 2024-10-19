@@ -44,6 +44,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 		if(remove)
 		{
 			view.clearLists();
+			view.runEntry();
 			System.out.println("All good");
 			remove = false;
 		}
