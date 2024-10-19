@@ -125,6 +125,13 @@ public class View extends JFrame {
         playerEntryButtons.add(playerAddIdField);
         playerEntryButtons.add(playerAddHardwareId);
 
+        // Add key listeners
+        playerAddButton.addKeyListener(controller);
+        playerAddNameField.addKeyListener(controller);
+        playerAddIdField.addKeyListener(controller);
+        playerAddHardwareId.addKeyListener(controller);
+
+        // Add buttons to the panel
         playerEntryPanel.add(playerEntryButtons);
         playerEntryPanel.add(playerEntryDialogue);
 
@@ -191,7 +198,6 @@ public class View extends JFrame {
                 update();
             }
         });
-        playerAddButton.addKeyListener(controller);
 
         // Adds any existing players in the player lists to the player panels
 
@@ -238,6 +244,7 @@ public class View extends JFrame {
     }
 
     public void runGame() {
+
         // Clears JFrame
         this.getContentPane().removeAll();
     
