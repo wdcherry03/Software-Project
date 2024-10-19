@@ -23,9 +23,9 @@ public class Model {
 	public String input;
 
 	// Player Lists
-	public ArrayList<Player> redPlayerList;
-	public ArrayList<Player> greenPlayerList;
-	public ArrayList<Player> allPlayersList;
+	public ArrayList<Player> redPlayerList;			// Red Players List, contains red players currently in play
+	public ArrayList<Player> greenPlayerList;		// Green Players List, contains green players currently in play
+	public ArrayList<Player> allPlayersList;		// List of player retrieved from the database. Should be synced with the database. Should not be cleared. 
 	
 	// Constructor
 	public Model() {
@@ -198,6 +198,12 @@ public class Model {
 			System.out.println("ERROR retrieving list of players from database [fetchPlayersFromDatabase()]");
 			System.out.println(e.getMessage());
 		}
+	}
+
+	// Clears player ilsts
+	public void clearPlayerLists() {
+		redPlayerList.clear();
+		greenPlayerList.clear();
 	}
 
 	// MVC components

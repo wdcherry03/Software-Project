@@ -231,16 +231,13 @@ public class View extends JFrame {
             }
         }
         this.repaint();
-        // this.
 	}
 
     // Function to clear all arrayLists upon keypress
-    public void clearLists()
+    public void clearEntries()
     {
         entries.clear();
-        model.allPlayersList.clear();
-        model.redPlayerList.clear();
-        model.greenPlayerList.clear();
+        model.clearPlayerLists();
     }
 
     public void runGame() {
