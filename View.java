@@ -327,9 +327,9 @@ public class View extends JFrame {
         timerPanel.add(timerLabel);
         timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
     
-        // Timer functionality for countdown (6 minutes = 360 seconds)
+        // Timer functionality for countdown
         gameTimer = new javax.swing.Timer(1000, new ActionListener() {
-            int secondsRemaining = 360;
+            int secondsRemaining = 30;
     
             @Override
             public void actionPerformed(ActionEvent e) {
