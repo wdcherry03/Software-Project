@@ -6,7 +6,6 @@
 
 import java.util.*;
 import java.sql.*;
-import java.util.Properties;
 import java.net.SocketException;
 
 public class Model {
@@ -17,10 +16,6 @@ public class Model {
 	// Variables
 	public Connection database;
 	public udpServer server;
-	public udpClient client;
-	public int redID; // Odd
-	public int greenID; // Even
-	public String input;
 
 	// Player Lists
 	public ArrayList<Player> redPlayerList;			// Red Players List, contains red players currently in play
@@ -31,10 +26,6 @@ public class Model {
 	public Model() {
 
 		// Initialize Varables
-		redID = 11;
-		greenID = 12;
-		input = "12";
-
 		redPlayerList = new ArrayList<Player>();
 		greenPlayerList = new ArrayList<Player>();
 		allPlayersList = new ArrayList<Player>();
@@ -63,18 +54,10 @@ public class Model {
 			System.out.println("ERROR creating socket");
 			System.out.println(e.getMessage());
 		}
-		client = new udpClient(); // Create client socket
 	}
 
 	// Update function. Runs every frame
-	public void update() {
-		if (input != null)
-		{
-			client.update(input);
-			server.update();
-			input = null;
-		}
-	}
+	public void update() {}
 
 	// Adds a player to the database table. No checks
 	// Returns true on successful insert, false otherwise
@@ -109,6 +92,7 @@ public class Model {
 		else if (hardwareID % 2 == 1) {		// Odd, Red
 			redPlayerList.add(player);
 		}
+		server.Send(String.valueOf(hardwareID));
 		return true;
 	}
 
