@@ -195,6 +195,10 @@ public class View extends JFrame {
                     }
                     entries.add(newPanel);
                 }
+
+                // Transmit hardware ID from server after player is added
+                // udpServer.server.Send(String.valueOf(hardwareId));
+
                 update();
             }
         });

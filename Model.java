@@ -6,7 +6,6 @@
 
 import java.util.*;
 import java.sql.*;
-import java.net.SocketException;
 
 public class Model {
 
@@ -15,7 +14,6 @@ public class Model {
 
 	// Variables
 	public Connection database;
-	public udpServer server;
 
 	// Player Lists
 	public ArrayList<Player> redPlayerList;			// Red Players List, contains red players currently in play
@@ -43,15 +41,6 @@ public class Model {
 		} 
 		catch (SQLException e) {
 			System.out.println("ERROR connecting to database, skipping connection step");
-			System.out.println(e.getMessage());
-		}
-
-		// UDP stuff
-		try{
-			server = new udpServer(); // Create server socket
-		}
-		catch (SocketException e){
-			System.out.println("ERROR creating socket");
 			System.out.println(e.getMessage());
 		}
 	}
@@ -92,7 +81,6 @@ public class Model {
 		else if (hardwareID % 2 == 1) {		// Odd, Red
 			redPlayerList.add(player);
 		}
-		server.Send(String.valueOf(hardwareID));
 		return true;
 	}
 

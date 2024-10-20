@@ -12,25 +12,34 @@ public class udpServer {
 	DatagramPacket DpReceive;
 	public InetAddress ip;
 	byte[] buf;
+	public static udpServer server;
+	int code = 0;
+
+	public static void main(String[] args) {
+		server = new udpServer();
+		server.run();
+	}
 
 	// Costructor
-	public udpServer() throws SocketException
+	public udpServer()
 	{
 		try {
-			// Step 1 : Create a socket to listen at port 7501
+			// Create a socket to listen at port 7501
 			ds = new DatagramSocket(7501);
 			receive = new byte[65535];
-			
 			DpReceive = null;
-		} 
+
+			// ds.setSoTimeout(1);
+		}
 		catch (SocketException e) {
 			System.out.println("ERROR creating socket");
 			System.out.println(e.getMessage());
 		}
 
 		try {
-			ip = InetAddress.getLocalHost();
-			//InetAddress ip = InetAddress.getByName("192.168.1.100"); // Address given in slides
+			//ip = InetAddress.getLocalHost();
+			// ip = InetAddress.getByName("192.168.1.100"); // Address given in slides
+			ip = InetAddress.getByName("127.0.0.1"); // Default IP address in traffic generator
 		}
 		catch (UnknownHostException e) {
 			System.out.println("ERROR connecting to host");
@@ -41,59 +50,32 @@ public class udpServer {
 		System.out.println("server constructor");
 	}
 
-	// Update function, runs every frame
-	public int update() {
-		// Step 2 : create a DatgramPacket to receive the data.
-		DpReceive = new DatagramPacket(receive, receive.length);
-		
-		if (DpReceive != null) {
-			//System.out.println("update");
+	public void run() {
+		while (true) {
+			// Create a DatgramPacket to receive the data.
+			DpReceive = new DatagramPacket(receive, receive.length);
+
+			// Recieve the data in byte buffer
 			try {
-				// Step 3 : recieve the data in byte buffer.
 				ds.receive(DpReceive);
-			} catch (IOException e) {
+			} 
+			catch (IOException e) {
 				System.out.println("ERROR receiving data");
 				System.out.println(e.getMessage());
 			}
-		}
-		System.out.println("Client: " + data(receive));
+			
+			System.out.println("Client: " + data(receive));
 
-		// Exit the server if the client sends "bye"
-		if (data(receive).toString().equals("bye")) {
-			System.out.println("Client sent bye.....EXITING");
-			return 1; // Returns 1 when exiting
-		}
+			// Transmit codes based on received data
+			// TODO
+			server.send("12");
 
-		// Clear the buffer after every message.
-		receive = new byte[65535];
-		return 0;
+			// Clear the buffer after every message.
+			receive = new byte[65535];
+		}
 	}
 
-	public void Recieve() {
-		// Create a DatgramPacket to receive the data.
-		DpReceive = new DatagramPacket(receive, receive.length);
-
-		if (DpReceive != null) {
-			try {
-				// Recieve the data in byte buffer
-				ds.receive(DpReceive);
-			} catch (IOException e) {
-				System.out.println("ERROR receiving data");
-				System.out.println(e.getMessage());
-			}
-		}
-		System.out.println("Client: " + data(receive));
-
-		// Exit the server if the client sends "bye"
-		// if (data(receive).toString().equals("bye")) {
-		// 	System.out.println("Client sent bye.....EXITING");
-		// }
-
-		// Clear the buffer after every message.
-		receive = new byte[65535];
-	}
-
-	public void Send(String Input) {
+	public void send(String Input) {
 		String input = Input;
 
 		// convert the String input into the byte array.
@@ -125,36 +107,5 @@ public class udpServer {
 		}
 		return ret;
 	}
+
 }
-
-/*
-	public static void main(String[] args) throws IOException
-	{
-		// Step 1 : Create a socket to listen at port 7501
-		DatagramSocket ds = new DatagramSocket(7501);
-		byte[] receive = new byte[65535];
-
-		DatagramPacket DpReceive = null;
-		while (true)
-		{
-
-			// Step 2 : create a DatgramPacket to receive the data.
-			DpReceive = new DatagramPacket(receive, receive.length);
-
-			// Step 3 : recieve the data in byte buffer.
-			ds.receive(DpReceive);
-
-			System.out.println("Client:-" + data(receive));
-
-			// Exit the server if the client sends "bye"
-			if (data(receive).toString().equals("bye"))
-			{
-				System.out.println("Client sent bye.....EXITING");
-				break;
-			}
-
-			// Clear the buffer after every message.
-			receive = new byte[65535];
-		}
-	}
-*/
