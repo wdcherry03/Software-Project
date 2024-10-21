@@ -141,6 +141,12 @@ public class View extends JFrame {
                 int hardwareId = Integer.parseInt(playerAddHardwareId.getText());
                 int playerId = Integer.parseInt(playerAddIdField.getText());
                 
+                // Check to see if 202/221/53/43 (important codes) are used as hardware ID
+                if (hardwareId == 202 || hardwareId == 221 || hardwareId == 53 || hardwareId == 43) {
+                    System.out.println("Invalid hardware ID entered. Not adding the requested player.");
+                    return;
+                }
+
                 // Checks if the id already exists
                 int foundPlayerIndex = model.checkPlayerListByID(playerId);
 
@@ -197,7 +203,7 @@ public class View extends JFrame {
                 }
 
                 // Transmit hardware ID from server after player is added
-                // udpServer.server.Send(String.valueOf(hardwareId));
+                model.server.send(String.valueOf(hardwareId));
 
                 update();
             }

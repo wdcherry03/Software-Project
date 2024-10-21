@@ -24,7 +24,7 @@ public class udpServer {
 	public udpServer(int port)
 	{
 		try {
-			// Create a socket to listen at port 7501
+			// Create a socket to listen at given port
 			ds = new DatagramSocket(port);
 			receive = new byte[65535];
 			DpReceive = null;
@@ -47,7 +47,7 @@ public class udpServer {
 		}
 		buf = null;
 
-		System.out.println("server constructor");
+		//System.out.println("server constructor");
 	}
 
 	public void run() {
@@ -64,17 +64,17 @@ public class udpServer {
 				System.out.println(e.getMessage());
 			}
 			
-			System.out.println("Client: " + data(receive));
+			System.out.println("Received from Client: " + data(receive));
 
 			// Transmit codes based on received data
 			// TODO
 			//server.send("12");
 
-			if (data(receive).toString().equals("bye"))
-			{
-				System.out.println("Client sent bye.....EXITING");
-				break;
-			}
+			// if (data(receive).toString().equals("bye"))
+			// {
+			// 	System.out.println("Client sent bye.....EXITING");
+			// 	break;
+			// }
 
 			// Clear the buffer after every message.
 			receive = new byte[65535];
@@ -92,7 +92,7 @@ public class udpServer {
 
 		try {
 			// Step 3 : invoke the send call to actually send the data.
-			System.out.println("Sending " + input);
+			System.out.println("Sending to Client: " + input);
 			ds.send(DpSend);
 		}
 		catch (IOException e) {
@@ -100,7 +100,6 @@ public class udpServer {
 			System.out.println(e.getMessage());
 		}
 	}	
-
 
 	// A utility method to convert the byte array data into a string representation.
 	public static StringBuilder data(byte[] a) {
