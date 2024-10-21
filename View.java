@@ -138,12 +138,26 @@ public class View extends JFrame {
         // Adds a player when the player add button is called 
         playerAddButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                int hardwareId = Integer.parseInt(playerAddHardwareId.getText());
-                int playerId = Integer.parseInt(playerAddIdField.getText());
+                int hardwareId = 0;
+                int playerId = 0;
+                try {
+                    hardwareId = Integer.parseInt(playerAddHardwareId.getText());
+                    playerId = Integer.parseInt(playerAddIdField.getText());
+                }
+                catch (NumberFormatException e) {
+                    playerEntryDialogue.setText("Hardware/Player ID was not a number. Not adding the requested player.");
+                    return;
+                }
                 
+                // Check if codename entry box is empty
+                // if (playerAddNameField.getText() == null) {
+                //     playerEntryDialogue.setText("Invalid hardware ID entered. Not adding the requested player.");
+                //     return;
+                // }
+
                 // Check to see if 202/221/53/43 (important codes) are used as hardware ID
                 if (hardwareId == 202 || hardwareId == 221 || hardwareId == 53 || hardwareId == 43) {
-                    System.out.println("Invalid hardware ID entered. Not adding the requested player.");
+                    playerEntryDialogue.setText("Invalid hardware ID entered. Not adding the requested player.");
                     return;
                 }
 
@@ -352,6 +366,8 @@ public class View extends JFrame {
                     gameTimer.stop(); // Stop the timer when it reaches 0
                     timerLabel.setText("00:00");
                     // You can add logic here to handle the end of the game (e.g., show a message, stop the game, etc.)
+                    // Transmit code 202 after countdown timer ends
+                    model.server.send(String.valueOf(202));
                 }
             }
         });
