@@ -70,6 +70,12 @@ public class udpServer {
 			// TODO
 			server.send("12");
 
+			if (data(receive).toString().equals("bye"))
+			{
+				System.out.println("Client sent bye.....EXITING");
+				break;
+			}
+
 			// Clear the buffer after every message.
 			receive = new byte[65535];
 		}
