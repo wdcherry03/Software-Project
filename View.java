@@ -140,20 +140,15 @@ public class View extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 int hardwareId = 0;
                 int playerId = 0;
+                // Handle errors if hardware/player ID isn't an int
                 try {
                     hardwareId = Integer.parseInt(playerAddHardwareId.getText());
                     playerId = Integer.parseInt(playerAddIdField.getText());
                 }
                 catch (NumberFormatException e) {
-                    playerEntryDialogue.setText("Hardware/Player ID was not a number. Not adding the requested player.");
+                    playerEntryDialogue.setText("Hardware/Player ID was empty/not a number. Not adding the requested player.");
                     return;
                 }
-                
-                // Check if codename entry box is empty
-                // if (playerAddNameField.getText() == null) {
-                //     playerEntryDialogue.setText("Invalid hardware ID entered. Not adding the requested player.");
-                //     return;
-                // }
 
                 // Check to see if 202/221/53/43 (important codes) are used as hardware ID
                 if (hardwareId == 202 || hardwareId == 221 || hardwareId == 53 || hardwareId == 43) {
@@ -195,6 +190,11 @@ public class View extends JFrame {
 
                 // If the player doesn't exist, adds them to the correct player list and the database
                 else {
+                    // Check if codename entry box is empty (only if player ID doesn't already exist in DB)
+                    if (playerAddNameField.getText() == null) {
+                        playerEntryDialogue.setText("Codename was empty. Not adding the requested player.");
+                        return;
+                    }
 
                     // Adds to the database and player lists
                     playerEntryDialogue.setText("Player not found. Adding player to the database...");
