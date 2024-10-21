@@ -20,6 +20,9 @@ public class Model {
 	public ArrayList<Player> greenPlayerList;		// Green Players List, contains green players currently in play
 	public ArrayList<Player> allPlayersList;		// List of player retrieved from the database. Should be synced with the database. Should not be cleared. 
 	
+	// UDP server socket
+	udpServer server = new udpServer(7502);
+
 	// Constructor
 	public Model() {
 

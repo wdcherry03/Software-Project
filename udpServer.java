@@ -16,16 +16,16 @@ public class udpServer {
 	int code = 0;
 
 	public static void main(String[] args) {
-		server = new udpServer();
+		server = new udpServer(7501);
 		server.run();
 	}
 
 	// Costructor
-	public udpServer()
+	public udpServer(int port)
 	{
 		try {
 			// Create a socket to listen at port 7501
-			ds = new DatagramSocket(7501);
+			ds = new DatagramSocket(port);
 			receive = new byte[65535];
 			DpReceive = null;
 
@@ -68,7 +68,7 @@ public class udpServer {
 
 			// Transmit codes based on received data
 			// TODO
-			server.send("12");
+			//server.send("12");
 
 			if (data(receive).toString().equals("bye"))
 			{
@@ -92,6 +92,7 @@ public class udpServer {
 
 		try {
 			// Step 3 : invoke the send call to actually send the data.
+			System.out.println("Sending " + input);
 			ds.send(DpSend);
 		}
 		catch (IOException e) {

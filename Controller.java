@@ -60,6 +60,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 		{
 			case KeyEvent.VK_F12: remove = true; break; // Clear player entries
 			case KeyEvent.VK_F5: view.runGame(); break; // Go to gameplay screen
+			//case KeyEvent.VK_0: model.server.send(String.valueOf(12)); break;
 		}
 	}
 	public void mousePressed(MouseEvent e) {    }
