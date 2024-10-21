@@ -40,7 +40,6 @@ public class Model {
 
 			// Fills player lists with database entries
 			fetchPlayersFromDatabase();
-			printPlayersPSQL();
 		} 
 		catch (SQLException e) {
 			System.out.println("ERROR connecting to database, skipping connection step");
@@ -161,7 +160,6 @@ public class Model {
 				// Gets Player information from query
 				int playerID = Integer.parseInt(rs.getString(1));
 				String playerName = rs.getString(2);
-				System.out.println(playerName);
 
 				Player newPlayer = new Player(playerID, playerName, -1);		// Initialized with hardware ID = -1
 				allPlayersList.add(newPlayer);

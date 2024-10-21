@@ -5,16 +5,21 @@ Project for Software Engineering - Team 15
 
 Instructions for running on provided Debian Machine:
 
-Install Java
-    - To install Java on a Linux machine, open the terminal and enter the following lines:
+## Install Java
+To install Java on a Linux machine, open the terminal and enter the following lines:
+
         sudo apt-get update
         sudo apt install default-jdk
 
-Clone this repository
-    - Or copy the source code directly
+## Clone this repository
+Or copy the source code directly. You can do this by opening the terminal in your folder of choice and entering:
+        
+        git clone https://github.com/wdcherry03/Software-Project.git
 
-Run build.sh
-    - CD into this repository's directory and run "build.sh" It should take care of everything from there!
+## Run build.sh
+CD into this repository's directory and run "build.sh" It should take care of everything from there!
+
+        bash build.sh
 
 
 # Group Members
