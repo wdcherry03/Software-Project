@@ -11,6 +11,14 @@ public class Player {
       atBase = true;
    }
 
+   public void hitEnemyPlayer() {
+      score += 10;
+   }
+
+   public void hitTeamPlayer() {
+      score -= 10;
+   }
+
    // Constructor
    public Player(int PlayerID, String Codename, int HardwareID) {
       playerID = PlayerID;
