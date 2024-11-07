@@ -5,6 +5,11 @@ public class Player {
    public String codename;
    public int hardwareID;
    public int score;
+   public boolean atBase = false;
+
+   public void hitBase() {
+      atBase = true;
+   }
 
    // Constructor
    public Player(int PlayerID, String Codename, int HardwareID) {
