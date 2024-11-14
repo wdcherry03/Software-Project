@@ -5,16 +5,10 @@
  * Calls other components to handle signals and database stuff.
  */
 
- import java.io.File;
  import java.util.*;
  import java.awt.*;
  import javax.swing.*;
  import java.awt.event.*;
- import javax.sound.sampled.AudioInputStream;
- import javax.sound.sampled.AudioSystem;
- import javax.sound.sampled.Clip;
- import javax.sound.sampled.LineUnavailableException;
- import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class View extends JFrame {
 
@@ -35,8 +29,6 @@ public class View extends JFrame {
         entries = new ArrayList<PlayerPanel>();
         this.addKeyListener(c);
 
-        //Music track variable
-        AudioInputStream audio;
 
 		// Set JFrame data
 		this.setTitle("Laser Tag");
