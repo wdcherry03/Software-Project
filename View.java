@@ -347,39 +347,61 @@ public class View extends JFrame {
     
         // Timer Panel
         JPanel timerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel timerLabel = new JLabel("00:30"); // Set timer for 30 seconds
+        JLabel timerLabel = new JLabel("00:30"); // Startup timer starts at 30 seconds
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         timerPanel.add(timerLabel);
-        timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
-    
-        // Timer functionality for countdown
+        timerPanel.setBorder(BorderFactory.createTitledBorder("Startup Timer"));
+
+        // Startup and Game Timer logic
+        final int[] secondsRemaining = {30}; // Initial 30 seconds for startup
         gameTimer = new javax.swing.Timer(1000, new ActionListener() {
-            int secondsRemaining = 30;
-    
+            boolean isStartupPhase = true;
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (secondsRemaining > 0) {
-                    secondsRemaining--;
-                    int minutes = secondsRemaining / 60;
-                    int remainingSeconds = secondsRemaining % 60;
+                if (isStartupPhase) {
+                    // Countdown for the startup phase
+                    secondsRemaining[0]--;
+                    int minutes = secondsRemaining[0] / 60;
+                    int remainingSeconds = secondsRemaining[0] % 60;
                     timerLabel.setText(String.format("%02d:%02d", minutes, remainingSeconds));
+
+                    if (secondsRemaining[0] <= 0) {
+                        // Transition from startup to game timer
+                        isStartupPhase = false;
+                        secondsRemaining[0] = 360; // 6 minutes in seconds
+                        timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
+                        timerLabel.setText("06:00");
+                        
+                        // Send "Game Start" signal
+                        model.server.send("Game Start");
+                    }
                 } else {
-                    gameTimer.stop(); // Stop the timer when it reaches 0
-                    timerLabel.setText("00:00");
-                    // You can add logic here to handle the end of the game (e.g., show a message, stop the game, etc.)
-                    // Transmit code 202 after countdown timer ends
-                    model.server.send(String.valueOf(202));
+                    // Countdown for the game phase
+                    secondsRemaining[0]--;
+                    int minutes = secondsRemaining[0] / 60;
+                    int remainingSeconds = secondsRemaining[0] % 60;
+                    timerLabel.setText(String.format("%02d:%02d", minutes, remainingSeconds));
+
+                    if (secondsRemaining[0] <= 0) {
+                        // End of the game timer
+                        gameTimer.stop();
+                        timerLabel.setText("00:00");
+
+                        // Send "End Game" signal
+                        model.server.send("Game End"); // Indicating game end
+                    }
                 }
             }
         });
-        gameTimer.start();  // Starts the countdown timer
-    
+        gameTimer.start(); // Start the timer with startup countdown
+
         // Layout for the main game screen
         JPanel gameScreen = new JPanel(new BorderLayout());
         gameScreen.add(teamsPanel, BorderLayout.NORTH);
         gameScreen.add(gameLogPanel, BorderLayout.CENTER);
         gameScreen.add(timerPanel, BorderLayout.SOUTH);
-    
+
         // Add the entire game screen to the JFrame
         this.add(gameScreen);
         this.revalidate();
