@@ -355,7 +355,7 @@ public class View extends JFrame {
     
         // Timer Panel
         JPanel timerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel timerLabel = new JLabel("00:30");  // Timer starts at 06:00 (6 minutes)
+        JLabel timerLabel = new JLabel("00:30"); // Set timer for 30 seconds
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         timerPanel.add(timerLabel);
         timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
