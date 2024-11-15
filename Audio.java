@@ -12,32 +12,64 @@ public class Audio
    public Random rand = new Random();
    int track = rand.nextInt(7);
 
-   public void run()
+   public Audio()
    {
-      File soundFile = new File("/assets/Track0" + (track + 1) + ".wav");
+      System.out.println(track + 1);
+   }
 
-      try
+   public void run(boolean check)
+   {
+      File soundFile = new File("./assets/Track0" + (track + 1) + ".wav");
+      // System.out.println(soundFile.getName());
+
+      if(check == true)
       {
-         AudioInputStream audio = AudioSystem.getAudioInputStream(soundFile);
-         Clip clip = AudioSystem.getClip();
-         clip.open(audio);
-         clip.start();
-
-         while (!clip.isRunning())
+         try
          {
-            Thread.sleep(10); //Wait for clip to start playing
-         }
-         while(clip.isRunning())
-         {
-            Thread.sleep(10); //Wait for clip to stop playing
-         }
-         clip.close();
-      }
+            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.addLineListener(new LineListener() 
+            {
+               @Override
+               public void update(LineEvent event)
+               {
+                  if(event.getType() == LineEvent.Type.STOP)
+                  {
+                     clip.close();
+                  }
+               }
+            });
 
-      catch(UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e)
-      {
-         System.out.println("Audio issue");
-         e.printStackTrace();
+            clip.open(audio);
+            clip.start();
+            while(!clip.isRunning())
+            {
+
+            }
+            while(clip.isRunning())
+            {
+               
+            }
+            // Clip clip = AudioSystem.getClip();
+            // clip.open(audio);
+            // clip.start();
+
+            // while (!clip.isRunning())
+            // {
+            //    Thread.sleep(10); //Wait for clip to start playing
+            // }
+            // while(clip.isRunning())
+            // {
+            //    Thread.sleep(10); //Wait for clip to stop playing
+            // }
+            // clip.close();
+         }
+
+         catch(UnsupportedAudioFileException | IOException | LineUnavailableException e)
+         {
+            System.out.println("Audio issue");
+            e.printStackTrace();
+         }
       }
    }
 }

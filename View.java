@@ -19,6 +19,8 @@ public class View extends JFrame {
     public String state;
     public javax.swing.Timer gameTimer; 
     public ArrayList<PlayerPanel> entries;
+    public boolean check; //Check boolean for Audio play
+    public Audio audio;
 
 	// Constructor
 	public View(Model m, Controller c) {
@@ -28,6 +30,8 @@ public class View extends JFrame {
 		controller = c;
         entries = new ArrayList<PlayerPanel>();
         this.addKeyListener(c);
+        check = false;
+        audio = new Audio();
 
 
 		// Set JFrame data
@@ -376,6 +380,14 @@ public class View extends JFrame {
                         // Send "Game Start" signal
                         model.server.send("Game Start");
                     }
+                    new Thread(() -> 
+                    {
+                        if(minutes == 0 && remainingSeconds == 18)
+                        {
+                            check = true;
+                            audio.run(check);
+                        }
+                    }).start();
                 } else {
                     // Countdown for the game phase
                     secondsRemaining[0]--;
