@@ -17,59 +17,44 @@ public class Audio
       System.out.println(track + 1);
    }
 
-   public void run(boolean check)
+   public void run()
    {
       File soundFile = new File("./assets/Track0" + (track + 1) + ".wav");
       // System.out.println(soundFile.getName());
 
-      if(check == true)
+
+      try
       {
-         try
+         AudioInputStream audio = AudioSystem.getAudioInputStream(soundFile);
+         Clip clip = AudioSystem.getClip();
+         clip.addLineListener(new LineListener() 
          {
-            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.addLineListener(new LineListener() 
+            @Override
+            public void update(LineEvent event)
             {
-               @Override
-               public void update(LineEvent event)
+               if(event.getType() == LineEvent.Type.STOP)
                {
-                  if(event.getType() == LineEvent.Type.STOP)
-                  {
-                     clip.close();
-                  }
+                  clip.close();
                }
-            });
-
-            clip.open(audio);
-            clip.start();
-            while(!clip.isRunning())
-            {
-
             }
-            while(clip.isRunning())
-            {
-               
-            }
-            // Clip clip = AudioSystem.getClip();
-            // clip.open(audio);
-            // clip.start();
+         });
 
-            // while (!clip.isRunning())
-            // {
-            //    Thread.sleep(10); //Wait for clip to start playing
-            // }
-            // while(clip.isRunning())
-            // {
-            //    Thread.sleep(10); //Wait for clip to stop playing
-            // }
-            // clip.close();
-         }
-
-         catch(UnsupportedAudioFileException | IOException | LineUnavailableException e)
+         clip.open(audio);
+         clip.start();
+         while(!clip.isRunning())
          {
-            System.out.println("Audio issue");
-            e.printStackTrace();
+
          }
+         while(clip.isRunning())
+         {
+               
+         }
+      }
+
+      catch(UnsupportedAudioFileException | IOException | LineUnavailableException e)
+      {
+         System.out.println("Audio issue");
+         e.printStackTrace();
       }
    }
 }
