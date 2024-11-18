@@ -169,6 +169,12 @@ public class View extends JFrame {
                     return;
                 }
 
+                // Check if codename entry box is empty
+                if (playerAddNameField.getText().isEmpty()) {
+                    playerEntryDialogue.setText("Codename was empty. Not adding the requested player.");
+                    return;
+                }
+
                 // Checks if the id already exists
                 int foundPlayerIndex = model.checkPlayerListByID(playerId);
 
@@ -203,12 +209,6 @@ public class View extends JFrame {
 
                 // If the player doesn't exist, adds them to the correct player list and the database
                 else {
-                    // Check if codename entry box is empty (only if player ID doesn't already exist in DB)
-                    if (playerAddNameField.getText().isEmpty()) {
-                        playerEntryDialogue.setText("Codename was empty. Not adding the requested player.");
-                        return;
-                    }
-
                     // Adds to the database and player lists
                     playerEntryDialogue.setText("Player not found. Adding player to the database...");
 

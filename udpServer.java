@@ -87,12 +87,11 @@ public class udpServer {
 			// Transmit codes based on received data (odd red, even green)
 			if (p2.equals("53")) {
 				// Red base (code 53)
-				System.out.println(p1 + " hit the red base\n");
+				System.out.println(p1 + " hit the red base");
 
 				if (i1 % 2 == 0) {
 					// Green player hit red base, +100 points & stylized B to left of codename
-					System.out.println(p1 + " received points for hitting the enemy base\n");
-					model.allPlayersList.get(model.checkPlayerListByID(i1)).hitBase();
+					model.allPlayersList.get(model.checkPlayerListByHardware(i1)).hitBase();
 				}
 				send(p2);
 			}
@@ -102,22 +101,21 @@ public class udpServer {
 
 				if (i1 % 2 == 1) {
 					// Red player hit green base, +100 points & stylized B to left of codename
-					System.out.println(p1 + " received points for hitting the enemy base\n");
-					model.allPlayersList.get(model.checkPlayerListByID(i1)).hitBase();
+					model.allPlayersList.get(model.checkPlayerListByHardware(i1)).hitBase();
 				}
 				send(p2);
 			}
 			else if (i1 % 2 != i2 % 2) {
 				// Player hit other team, transmit hit player id
 				System.out.println(p1 + " hit an enemy player");
-				model.allPlayersList.get(model.checkPlayerListByID(i1)).hitEnemyPlayer();
+				model.allPlayersList.get(model.checkPlayerListByHardware(i1)).hitEnemyPlayer();
 				send(p2);
 				// +10 points for player
 			}
 			else {
 				// Player hit same team, transmit own player id
 				System.out.println(p1 + " hit a teammate");
-				model.allPlayersList.get(model.checkPlayerListByID(i1)).hitTeamPlayer();
+				model.allPlayersList.get(model.checkPlayerListByHardware(i1)).hitTeamPlayer();
 				send(p1);
 				// -10 points for player
 			}
@@ -138,7 +136,7 @@ public class udpServer {
 
 		try {
 			// Step 3 : invoke the send call to actually send the data.
-			System.out.println("Sending to Client: " + input);
+			System.out.println("Sending to Client: " + input + "\n");
 			ds.send(DpSend);
 		}
 		catch (IOException e) {
