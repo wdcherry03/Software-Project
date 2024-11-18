@@ -43,4 +43,9 @@ public class Player {
       hardwareID = p.hardwareID;
       score = p.score;
    }
+
+   // Prints player information
+   public void printInfo() {
+      System.out.println("ID: " + playerID + ", Codename: " + codename + ", Hardware ID: " + hardwareID);
+   }
 }
