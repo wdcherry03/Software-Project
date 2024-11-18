@@ -15,11 +15,6 @@ public class udpServer {
 	public static udpServer server;
 	int code = 0;
 
-	public static void main(String[] args) {
-		server = new udpServer(7501);
-		server.run();
-	}
-
 	// Costructor
 	public udpServer(int port)
 	{
@@ -54,6 +49,11 @@ public class udpServer {
 		while (true) {
 			// Create a DatgramPacket to receive the data.
 			DpReceive = new DatagramPacket(receive, receive.length);
+			String input = "";
+			String p1 = "";
+			String p2 = "";
+			int i1 = 0;
+			int i2 = 0;
 
 			// Recieve the data in byte buffer
 			try {
@@ -66,9 +66,53 @@ public class udpServer {
 			
 			System.out.println("Received from Client: " + data(receive));
 
-			// Transmit codes based on received data
-			// TODO
-			//server.send("12");
+			// Split the received message (should be in int:int format, throws error otherwise)
+			// (transmitting player):(hit player)
+			input = data(receive).toString();
+			if (input.contains(":")) {
+				String parts[] = input.split(":");
+				p1 = parts[0]; // ID of transmitting player
+				p2 = parts[1]; // ID of hit player/base
+				i1 = Integer.parseInt(p1);
+				i2 = Integer.parseInt(p2);
+			}
+			else {
+				throw new IllegalArgumentException("String " + input + " does not contain :");
+			}
+			
+			// Transmit codes based on received data (odd red, even green)
+			if (p2.equals("53")) {
+				// Red base (code 53)
+				System.out.println(p1 + " hit the red base\n");
+
+				if (i1 % 2 == 0) {
+					// Green player hit red base, +100 points & stylized B to left of codename
+					System.out.println(p1 + " received points for hitting the enemy base\n");
+				}
+				send(p2);
+			}
+			else if (p2.equals("43")) { 
+				// Green base (code 43)
+				System.out.println(p1 + " hit the green base");
+
+				if (i1 % 2 == 1) {
+					// Red player hit green base, +100 points & stylized B to left of codename
+					System.out.println(p1 + " received points for hitting the enemy base\n");
+				}
+				send(p2);
+			}
+			else if (i1 % 2 != i2 % 2) {
+				// Player hit other team, transmit hit player id
+				System.out.println(p1 + " hit an enemy player");
+				send(p2);
+				// +10 points for player
+			}
+			else {
+				// Player hit same team, transmit own player id
+				System.out.println(p1 + " hit a teammate");
+				send(p1);
+				// -10 points for player
+			}
 
 			// if (data(receive).toString().equals("bye"))
 			// {

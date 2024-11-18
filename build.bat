@@ -4,9 +4,6 @@ if %errorlevel% neq 0 (
 	echo Error Compiling	
 ) else (
 	echo Compiled correctly
-	::java Main
-	::java udpServer
-	start java Main
-	start java udpServer
+	java Main
 )
 

@@ -20,6 +20,7 @@ public class View extends JFrame {
     public javax.swing.Timer gameTimer; 
     public ArrayList<PlayerPanel> entries;
     public Audio audio; //Initial Audio object
+    public udpServer server; // UDP server socket
 
 	// Constructor
 	public View(Model m, Controller c) {
@@ -30,6 +31,7 @@ public class View extends JFrame {
         entries = new ArrayList<PlayerPanel>();
         this.addKeyListener(c);
         audio = new Audio();
+        server = new udpServer(7501); // Initialize UDP server at port 7501
 
 
 		// Set JFrame data
@@ -220,7 +222,7 @@ public class View extends JFrame {
                 }
 
                 // Transmit hardware ID from server after player is added
-                model.server.send(String.valueOf(hardwareId));
+                server.send(String.valueOf(hardwareId));
 
                 update();
             }
@@ -375,8 +377,14 @@ public class View extends JFrame {
                         timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
                         timerLabel.setText("06:00");
                         
-                        // Send "Game Start" signal
-                        model.server.send("Game Start");
+                        // Send "Game Start" signal 202 after countdown timer finishes
+                        server.send("202");
+
+                        //Separate Thread to run UDP server
+                        new Thread(() -> 
+                        {
+                            server.run();
+                        }).start();
                     }
                     //Separate Thread to run tracks without interfering with game timer
                     new Thread(() -> 
@@ -398,8 +406,10 @@ public class View extends JFrame {
                         gameTimer.stop();
                         timerLabel.setText("00:00");
 
-                        // Send "End Game" signal
-                        model.server.send("Game End"); // Indicating game end
+                        // Send "End Game" signal 221 three times
+                        // for (int i = 0; i < 3; i++) {
+                            server.send("221");
+                        // }
                     }
                 }
             }
