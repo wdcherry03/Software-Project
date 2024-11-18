@@ -214,7 +214,7 @@ public class View extends JFrame {
 
                     String codename = playerAddNameField.getText();
                     Player newPlayer = new Player(playerId, codename, hardwareId);
-                    // model.addPlayerPSQL(playerId, codename, hardwareId);
+                    //model.addPlayerPSQL(playerId, codename, hardwareId);
                     model.addPlayerToLists(newPlayer);
 
                     // Adds to the player to the correct panel
@@ -337,8 +337,7 @@ public class View extends JFrame {
             JPanel playerRow = new JPanel(new GridLayout(1, 4)); // Updated to 4 columns
             playerRow.add(new JLabel(greenPlayer.codename, JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(greenPlayer.playerID), JLabel.CENTER));
-            //playerRow.add(new JLabel(String.valueOf(greenPlayer.score), JLabel.RIGHT)); // Assuming Player class has 'score'
-            playerRow.add(new JLabel(String.format("%d",greenPlayer.score), JLabel.RIGHT));
+            playerRow.add(new JLabel(String.valueOf(greenPlayer.score), JLabel.RIGHT)); // Assuming Player class has 'score'
 
             // Check if the player is at base and add a stylized "B" if true
             if (greenPlayer.atBase) {
