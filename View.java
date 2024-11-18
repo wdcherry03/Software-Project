@@ -442,7 +442,8 @@ public class View extends JFrame {
                         // Send "End Game" signal 221 three times
                         if(!gameEnd)
                         {
-                            server.send("221");
+                            for (int i = 0; i < 3; i++)
+                                server.send("221");
                             gameEnd = true;
                         }
                     }
