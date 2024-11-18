@@ -7,6 +7,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class udpServer {
+	public Model model;
 	DatagramSocket ds;
 	byte[] receive;
 	DatagramPacket DpReceive;
@@ -16,8 +17,9 @@ public class udpServer {
 	int code = 0;
 
 	// Costructor
-	public udpServer(int port)
+	public udpServer(int port, Model m)
 	{
+		model = m;
 		try {
 			// Create a socket to listen at given port
 			ds = new DatagramSocket(port);
@@ -88,6 +90,7 @@ public class udpServer {
 				if (i1 % 2 == 0) {
 					// Green player hit red base, +100 points & stylized B to left of codename
 					System.out.println(p1 + " received points for hitting the enemy base\n");
+					model.allPlayersList.get(model.checkPlayerListByID(i1)).hitBase();
 				}
 				send(p2);
 			}
@@ -98,27 +101,24 @@ public class udpServer {
 				if (i1 % 2 == 1) {
 					// Red player hit green base, +100 points & stylized B to left of codename
 					System.out.println(p1 + " received points for hitting the enemy base\n");
+					model.allPlayersList.get(model.checkPlayerListByID(i1)).hitBase();
 				}
 				send(p2);
 			}
 			else if (i1 % 2 != i2 % 2) {
 				// Player hit other team, transmit hit player id
 				System.out.println(p1 + " hit an enemy player");
+				model.allPlayersList.get(model.checkPlayerListByID(i1)).hitEnemyPlayer();
 				send(p2);
 				// +10 points for player
 			}
 			else {
 				// Player hit same team, transmit own player id
 				System.out.println(p1 + " hit a teammate");
+				model.allPlayersList.get(model.checkPlayerListByID(i1)).hitTeamPlayer();
 				send(p1);
 				// -10 points for player
 			}
-
-			// if (data(receive).toString().equals("bye"))
-			// {
-			// 	System.out.println("Client sent bye.....EXITING");
-			// 	break;
-			// }
 
 			// Clear the buffer after every message.
 			receive = new byte[65535];

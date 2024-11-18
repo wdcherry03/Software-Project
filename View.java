@@ -35,8 +35,7 @@ public class View extends JFrame {
         entries = new ArrayList<PlayerPanel>();
         this.addKeyListener(c);
         audio = new Audio();
-        server = new udpServer(7501); // Initialize UDP server at port 7501
-
+        server = new udpServer(7501, m); // Initialize UDP server at port 7501
 
 		// Set JFrame data
 		this.setTitle("Laser Tag");
