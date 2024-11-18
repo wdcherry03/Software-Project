@@ -16,9 +16,9 @@ public class Model {
 	public Connection database;
 
 	// Player Lists
-	public ArrayList<Player> redPlayerList;			// Red Players List, contains red players currently in play
-	public ArrayList<Player> greenPlayerList;		// Green Players List, contains green players currently in play
-	public ArrayList<Player> allPlayersList;		// List of player retrieved from the database. Should be synced with the database. Should not be cleared. 
+	public static ArrayList<Player> redPlayerList;			// Red Players List, contains red players currently in play
+	public static ArrayList<Player> greenPlayerList;		// Green Players List, contains green players currently in play
+	public static ArrayList<Player> allPlayersList;		// List of player retrieved from the database. Should be synced with the database. Should not be cleared. 
 
 	// Constructor
 	public Model() {
