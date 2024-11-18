@@ -2,15 +2,10 @@
 import javax.swing.JPanel;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.File;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 
-import java.util.*;
 import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
 
 
 public class splash extends JPanel{

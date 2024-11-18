@@ -1,9 +1,7 @@
 // Holds a player's information in a JPanel
 
-import java.util.*;
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 
 public class PlayerPanel extends JPanel {
 
