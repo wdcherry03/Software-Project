@@ -214,7 +214,7 @@ public class View extends JFrame {
 
                     String codename = playerAddNameField.getText();
                     Player newPlayer = new Player(playerId, codename, hardwareId);
-                    // model.addPlayerPSQL(playerId, codename, hardwareId);
+                    model.addPlayerPSQL(playerId, codename, hardwareId);
                     model.addPlayerToLists(newPlayer);
 
                     // Adds to the player to the correct panel
@@ -279,44 +279,43 @@ public class View extends JFrame {
 
     // Runs the game display
     public void runGame() {
-
         // Clears JFrame
         this.getContentPane().removeAll();
-    
+
         // Panel for red and green teams' scoreboards
         JPanel redTeamPanel = new JPanel(new GridLayout(21, 1)); // 21 rows, 20 players
         JPanel greenTeamPanel = new JPanel(new GridLayout(21, 1)); // 21 rows, 20 players
-    
+
         // Add table headers for RED Team
         JPanel redTeamHeader = new JPanel(new GridLayout(1, 3));
         redTeamHeader.add(new JLabel("PLAYER NAME", JLabel.LEFT));
         redTeamHeader.add(new JLabel("PLAYER ID", JLabel.LEFT));
         redTeamHeader.add(new JLabel("SCORE", JLabel.LEFT));
         redTeamHeader.setBackground(Color.RED);
-    
+
         redTeamPanel.add(redTeamHeader);
         redTeamPanel.setBackground(Color.RED);
-    
+
         // Add table headers for GREEN Team
         JPanel greenTeamHeader = new JPanel(new GridLayout(1, 3));
         greenTeamHeader.add(new JLabel("PLAYER NAME", JLabel.LEFT));
         greenTeamHeader.add(new JLabel("PLAYER ID", JLabel.LEFT));
         greenTeamHeader.add(new JLabel("SCORE", JLabel.LEFT));
         greenTeamHeader.setBackground(Color.GREEN);
-    
+
         greenTeamPanel.add(greenTeamHeader);
         greenTeamPanel.setBackground(Color.GREEN);
-    
+
         // Initialize total scores for both teams
         int redTotalScore = 0;
         int greenTotalScore = 0;
-    
+
         // Populate red team players with scores and accumulate the total score
         for (Player redPlayer : model.redPlayerList) {
             JPanel playerRow = new JPanel(new GridLayout(1, 4)); // Updated to 4 columns
             playerRow.add(new JLabel(redPlayer.codename, JLabel.LEFT));
-            playerRow.add(new JLabel(String.valueOf(redPlayer.playerID), JLabel.CENTER));
-            playerRow.add(new JLabel(String.valueOf(redPlayer.score), JLabel.RIGHT)); // Assuming Player class has 'score'
+            playerRow.add(new JLabel(String.valueOf(redPlayer.playerID), JLabel.LEFT));
+            playerRow.add(new JLabel(String.valueOf(redPlayer.score), JLabel.LEFT)); // Assuming Player class has 'score'
 
             // Check if the player is at base and add a stylized "B" if true
             if (redPlayer.atBase) {
@@ -336,8 +335,8 @@ public class View extends JFrame {
         for (Player greenPlayer : model.greenPlayerList) {
             JPanel playerRow = new JPanel(new GridLayout(1, 4)); // Updated to 4 columns
             playerRow.add(new JLabel(greenPlayer.codename, JLabel.LEFT));
-            playerRow.add(new JLabel(String.valueOf(greenPlayer.playerID), JLabel.CENTER));
-            playerRow.add(new JLabel(String.valueOf(greenPlayer.score), JLabel.RIGHT)); // Assuming Player class has 'score'
+            playerRow.add(new JLabel(String.valueOf(greenPlayer.playerID), JLabel.LEFT));
+            playerRow.add(new JLabel(String.valueOf(greenPlayer.score), JLabel.LEFT)); // Assuming Player class has 'score'
 
             // Check if the player is at base and add a stylized "B" if true
             if (greenPlayer.atBase) {
@@ -352,26 +351,26 @@ public class View extends JFrame {
             greenTeamPanel.add(playerRow);
             greenTotalScore += greenPlayer.score; // Add player's score to the cumulative score
         }
-    
+
         // Add cumulative score row for the RED team
         JPanel redTotalScoreRow = new JPanel(new GridLayout(1, 3));
         redTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
         redTotalScoreRow.add(new JLabel("", JLabel.LEFT)); // Empty label for the Player ID column
         redTotalScoreRow.add(new JLabel(String.valueOf(redTotalScore), JLabel.LEFT));
         redTeamPanel.add(redTotalScoreRow);
-    
+
         // Add cumulative score row for the GREEN team
         JPanel greenTotalScoreRow = new JPanel(new GridLayout(1, 3));
         greenTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
         greenTotalScoreRow.add(new JLabel("", JLabel.LEFT)); // Empty label for the Player ID column
         greenTotalScoreRow.add(new JLabel(String.valueOf(greenTotalScore), JLabel.LEFT));
         greenTeamPanel.add(greenTotalScoreRow);
-    
+
         // Create panel to hold both team panels side by side
         JPanel teamsPanel = new JPanel(new GridLayout(1, 2));
         teamsPanel.add(redTeamPanel);
         teamsPanel.add(greenTeamPanel);
-    
+
         // Game log panel
         JPanel gameLogPanel = new JPanel(new BorderLayout());
         JTextArea gameLogArea = new JTextArea(10, 50);
@@ -379,7 +378,7 @@ public class View extends JFrame {
         JScrollPane scrollPane = new JScrollPane(gameLogArea);
         gameLogPanel.add(scrollPane, BorderLayout.CENTER);
         gameLogPanel.setBorder(BorderFactory.createTitledBorder("Game Log"));
-    
+
         // Timer Panel
         JPanel timerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel timerLabel = new JLabel("00:30"); // Startup timer starts at 30 seconds
@@ -404,26 +403,23 @@ public class View extends JFrame {
                     if (secondsRemaining[0] <= 0) {
                         // Transition from startup to game timer
                         isStartupPhase = false;
-                        secondsRemaining[0] = 10; // 6 minutes in seconds
+                        secondsRemaining[0] = 360; // 6 minutes in seconds
                         timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
                         timerLabel.setText("06:00");
-                        
+
                         // Send "Game Start" signal 202 after countdown timer finishes
-                        if(!gameStart) {
-                            //Separate Thread to run UDP server
-                            new Thread(() -> 
-                            {
+                        if (!gameStart) {
+                            // Separate Thread to run UDP server
+                            new Thread(() -> {
                                 server.run();
                             }).start();
                             server.send("202");
                             gameStart = true;
                         }
                     }
-                    //Separate Thread to run tracks without interfering with game timer
-                    new Thread(() -> 
-                    {
-                        if(minutes == 0 && remainingSeconds == 18)
-                        {
+                    // Separate Thread to run tracks without interfering with game timer
+                    new Thread(() -> {
+                        if (minutes == 0 && remainingSeconds == 18) {
                             audio.run();
                         }
                     }).start();
@@ -440,14 +436,17 @@ public class View extends JFrame {
                         timerLabel.setText("00:00");
 
                         // Send "End Game" signal 221 three times
-                        if(!gameEnd)
-                        {
-                            for (int i = 0; i < 3; i++)
+                        if (!gameEnd) {
+                            for (int i = 0; i < 3; i++) {
                                 server.send("221");
+                            }
                             gameEnd = true;
                         }
                     }
                 }
+
+                // Trigger repaint to update the game screen (this will re-render the player scores and status)
+                repaint();
             }
         });
         gameTimer.start(); // Start the timer with startup countdown
