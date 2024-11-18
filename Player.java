@@ -8,6 +8,7 @@ public class Player {
    public boolean atBase = false;
 
    public void hitBase() {
+      score += 100;
       atBase = true;
    }
 
