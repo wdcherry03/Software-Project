@@ -1,4 +1,4 @@
-// Java program to illustrate Server side Implementation using DatagramSocket
+// Program handling datagram transfer to/from the hardware
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -68,7 +68,7 @@ public class udpServer {
 				System.out.println(e.getMessage());
 			}
 			
-			System.out.println("Received from Client: " + data(receive));
+			System.out.println("\nReceived from Client: " + data(receive));
 
 			// Split the received message (should be in int:int format, throws error otherwise)
 			// (transmitting player):(hit player)
@@ -83,7 +83,11 @@ public class udpServer {
 			else {
 				throw new IllegalArgumentException("String " + input + " does not contain :");
 			}
+
+			// Send hardware IDs to view as integers
+			model.view.eventOccured(i1, i2);
 			
+/*
 			// Transmit codes based on received data (odd red, even green)
 			if (p2.equals("53")) {
 				// Red base (code 53)
@@ -119,6 +123,7 @@ public class udpServer {
 				send(p1);
 				// -10 points for player
 			}
+*/
 
 			// Clear the buffer after every message.
 			receive = new byte[65535];
@@ -136,7 +141,7 @@ public class udpServer {
 
 		try {
 			// Step 3 : invoke the send call to actually send the data.
-			System.out.println("Sending to Client: " + input + "\n");
+			System.out.println("Sending to Client: " + input);
 			ds.send(DpSend);
 		}
 		catch (IOException e) {

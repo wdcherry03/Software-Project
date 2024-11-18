@@ -177,9 +177,16 @@ public class View extends JFrame {
 
                 // Checks if the id already exists
                 int foundPlayerIndex = model.checkPlayerListByID(playerId);
+                int foundPlayerHardware = model.checkPlayerListByHardware(hardwareId);
+
+                // Handle duplicate hardware ID's
+                if (foundPlayerHardware != -1) {
+                    playerEntryDialogue.setText("Hardware ID already added. Not adding the requested player.");
+                    return;
+                }
 
                 // If the player exists, uses already existing player data and adds hardware id
-                if (foundPlayerIndex >= 0) {
+                else if (foundPlayerIndex >= 0) {
                     playerEntryDialogue.setText("Player already found. Using existing information...");
 
                     // Checks if the player is already added
@@ -386,7 +393,7 @@ public class View extends JFrame {
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         timerPanel.add(timerLabel);
         timerPanel.setBorder(BorderFactory.createTitledBorder("Startup Timer"));
-
+        // System.out.println("This only prints once");
         // Startup and Game Timer logic
         final int[] secondsRemaining = {30}; // Initial 30 seconds for startup
         gameTimer = new javax.swing.Timer(1000, new ActionListener() {
@@ -394,6 +401,7 @@ public class View extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                // System.out.println("This prints every timer update");
                 if (isStartupPhase) {
                     // Countdown for the startup phase
                     secondsRemaining[0]--;
@@ -462,5 +470,67 @@ public class View extends JFrame {
         this.add(gameScreen);
         this.revalidate();
         this.repaint();
+    }
+
+    // Event handling
+    public void eventOccured(int hardware1, int hardware2) {
+        // System.out.println("Event occured");
+
+        if (gameEnd)
+            return;
+
+        // Transmit codes based on received data (odd red, even green)
+        if (hardware2 == 53) {
+            // Red base (code 53)
+            System.out.println(hardware1 + " hit the red base");
+
+            if (hardware1 % 2 == 0) {
+                // Green player hit red base, +100 points & stylized B to left of codename
+                model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitBase();
+            }
+            server.send(String.valueOf(hardware2));
+        }
+        else if (hardware2 == 43) { 
+            // Green base (code 43)
+            System.out.println(hardware1 + " hit the green base");
+
+            if (hardware1 % 2 == 1) {
+                // Red player hit green base, +100 points & stylized B to left of codename
+                model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitBase();
+            }
+            server.send(String.valueOf(hardware2));
+        }
+        else if (hardware1 % 2 != hardware2 % 2) {
+            // Player hit other team, transmit hit player id
+            System.out.println(hardware1 + " hit an enemy player");
+            model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitEnemyPlayer();
+            server.send(String.valueOf(hardware2));
+            // +10 points for player
+        }
+        else {
+            // Player hit same team, transmit own player id
+            System.out.println(hardware1 + " hit a teammate");
+            model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitTeamPlayer();
+            server.send(String.valueOf(hardware1));
+            // -10 points for player
+        }
+        
+        this.scrollBoxUpdate(hardware1, hardware2);
+    }
+
+    public void actionScreenUpdate() {
+        // Update play action screen here
+    }
+
+    public void scrollBoxUpdate(int hardware1, int hardware2) {
+        // Update scroll box here
+        String codename1 = model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename;
+        if (hardware2 == 43 || hardware2 == 53) {
+            System.out.println(codename1 + " hit the base");
+        }
+        else{
+            String codename2 = model.allPlayersList.get(model.checkPlayerListByHardware(hardware2)).codename;
+            System.out.println(codename1 + " hit " + codename2);
+        }
     }
 }
