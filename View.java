@@ -20,6 +20,7 @@ public class View extends JFrame {
     public javax.swing.Timer gameTimer; 
     public ArrayList<PlayerPanel> entries;
     public Audio audio; //Initial Audio object
+    public udpServer server; // UDP server socket
 
     // Booleans for game states
     public boolean gameStart = false;
@@ -404,13 +405,18 @@ public class View extends JFrame {
                     if (secondsRemaining[0] <= 0) {
                         // Transition from startup to game timer
                         isStartupPhase = false;
-                        secondsRemaining[0] = 360; // 6 minutes in seconds
+                        secondsRemaining[0] = 10; // 6 minutes in seconds
                         timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
                         timerLabel.setText("06:00");
                         
-                        // Send "Game Start" signal
+                        // Send "Game Start" signal 202 after countdown timer finishes
                         if(!gameStart) {
-                            model.server.send("Game Start");
+                            //Separate Thread to run UDP server
+                            new Thread(() -> 
+                            {
+                                server.run();
+                            }).start();
+                            server.send("202");
                             gameStart = true;
                         }
                     }
@@ -434,10 +440,10 @@ public class View extends JFrame {
                         gameTimer.stop();
                         timerLabel.setText("00:00");
 
-                        // Send "End Game" signal
+                        // Send "End Game" signal 221 three times
                         if(!gameEnd)
                         {
-                            model.server.send("Game End");
+                            server.send("221");
                             gameEnd = true;
                         }
                     }
