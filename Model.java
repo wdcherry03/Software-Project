@@ -170,7 +170,22 @@ public class Model {
 		}
 	}
 
-	// Clears player ilsts
+	// Prints players list
+	// Mainly for debugging
+	public void printPlayersLists() {
+
+		// Red
+		for (int i = 0; i < redPlayerList.size(); ++i) {
+			redPlayerList.get(i).printInfo();
+		}
+
+		// Green
+		for (int i = 0; i < greenPlayerList.size(); ++i) {
+			greenPlayerList.get(i).printInfo();
+		}
+	}
+
+	// Clears player lists
 	public void clearPlayerLists() {
 		redPlayerList.clear();
 		greenPlayerList.clear();
