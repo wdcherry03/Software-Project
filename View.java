@@ -302,20 +302,42 @@ public class View extends JFrame {
     
         // Populate red team players with scores and accumulate the total score
         for (Player redPlayer : model.redPlayerList) {
-            JPanel playerRow = new JPanel(new GridLayout(1, 3));
+            JPanel playerRow = new JPanel(new GridLayout(1, 4)); // Updated to 4 columns
             playerRow.add(new JLabel(redPlayer.codename, JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(redPlayer.playerID), JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(redPlayer.score), JLabel.LEFT)); // Assuming Player class has 'score'
+
+            // Check if the player is at base and add a stylized "B" if true
+            if (redPlayer.atBase) {
+                JLabel baseIcon = new JLabel("B", JLabel.CENTER);
+                baseIcon.setFont(new Font("Arial", Font.BOLD, 16));
+                baseIcon.setForeground(Color.BLUE);
+                playerRow.add(baseIcon);
+            } else {
+                playerRow.add(new JLabel()); // Placeholder for alignment
+            }
+
             redTeamPanel.add(playerRow);
             redTotalScore += redPlayer.score; // Add player's score to the cumulative score
         }
-    
+
         // Populate green team players with scores and accumulate the total score
         for (Player greenPlayer : model.greenPlayerList) {
-            JPanel playerRow = new JPanel(new GridLayout(1, 3));
+            JPanel playerRow = new JPanel(new GridLayout(1, 4)); // Updated to 4 columns
             playerRow.add(new JLabel(greenPlayer.codename, JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(greenPlayer.playerID), JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(greenPlayer.score), JLabel.LEFT)); // Assuming Player class has 'score'
+
+            // Check if the player is at base and add a stylized "B" if true
+            if (greenPlayer.atBase) {
+                JLabel baseIcon = new JLabel("B", JLabel.CENTER);
+                baseIcon.setFont(new Font("Arial", Font.BOLD, 16));
+                baseIcon.setForeground(Color.BLUE);
+                playerRow.add(baseIcon);
+            } else {
+                playerRow.add(new JLabel()); // Placeholder for alignment
+            }
+
             greenTeamPanel.add(playerRow);
             greenTotalScore += greenPlayer.score; // Add player's score to the cumulative score
         }
