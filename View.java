@@ -20,9 +20,12 @@ public class View extends JFrame {
     public javax.swing.Timer gameTimer; 
     public ArrayList<PlayerPanel> entries;
     public Audio audio; //Initial Audio object
-    public udpServer server; // UDP server socket
 
-	// Constructor
+    // Booleans for game states
+    public boolean gameStart = false;
+    public boolean gameEnd = false;
+
+    // Constructor
 	public View(Model m, Controller c) {
 
 		// MVC
@@ -67,6 +70,11 @@ public class View extends JFrame {
 	public void dumpScreen() {
         this.removeAll();
 	}
+
+    public void resetGameState() {
+        gameStart = false;
+        gameEnd = false;
+    }
 
 	// Runs the entry screen
 	public void runEntry() {
@@ -269,6 +277,7 @@ public class View extends JFrame {
         model.clearPlayerLists();
     }
 
+    // Runs the game display
     public void runGame() {
 
         // Clears JFrame
@@ -304,20 +313,42 @@ public class View extends JFrame {
     
         // Populate red team players with scores and accumulate the total score
         for (Player redPlayer : model.redPlayerList) {
-            JPanel playerRow = new JPanel(new GridLayout(1, 3));
+            JPanel playerRow = new JPanel(new GridLayout(1, 4)); // Updated to 4 columns
             playerRow.add(new JLabel(redPlayer.codename, JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(redPlayer.playerID), JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(redPlayer.score), JLabel.LEFT)); // Assuming Player class has 'score'
+
+            // Check if the player is at base and add a stylized "B" if true
+            if (redPlayer.atBase) {
+                JLabel baseIcon = new JLabel("B", JLabel.CENTER);
+                baseIcon.setFont(new Font("Arial", Font.BOLD, 16));
+                baseIcon.setForeground(Color.BLUE);
+                playerRow.add(baseIcon);
+            } else {
+                playerRow.add(new JLabel()); // Placeholder for alignment
+            }
+
             redTeamPanel.add(playerRow);
             redTotalScore += redPlayer.score; // Add player's score to the cumulative score
         }
-    
+
         // Populate green team players with scores and accumulate the total score
         for (Player greenPlayer : model.greenPlayerList) {
-            JPanel playerRow = new JPanel(new GridLayout(1, 3));
+            JPanel playerRow = new JPanel(new GridLayout(1, 4)); // Updated to 4 columns
             playerRow.add(new JLabel(greenPlayer.codename, JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(greenPlayer.playerID), JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(greenPlayer.score), JLabel.LEFT)); // Assuming Player class has 'score'
+
+            // Check if the player is at base and add a stylized "B" if true
+            if (greenPlayer.atBase) {
+                JLabel baseIcon = new JLabel("B", JLabel.CENTER);
+                baseIcon.setFont(new Font("Arial", Font.BOLD, 16));
+                baseIcon.setForeground(Color.BLUE);
+                playerRow.add(baseIcon);
+            } else {
+                playerRow.add(new JLabel()); // Placeholder for alignment
+            }
+
             greenTeamPanel.add(playerRow);
             greenTotalScore += greenPlayer.score; // Add player's score to the cumulative score
         }
@@ -377,14 +408,11 @@ public class View extends JFrame {
                         timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
                         timerLabel.setText("06:00");
                         
-                        // Send "Game Start" signal 202 after countdown timer finishes
-                        server.send("202");
-
-                        //Separate Thread to run UDP server
-                        new Thread(() -> 
-                        {
-                            server.run();
-                        }).start();
+                        // Send "Game Start" signal
+                        if(!gameStart) {
+                            model.server.send("Game Start");
+                            gameStart = true;
+                        }
                     }
                     //Separate Thread to run tracks without interfering with game timer
                     new Thread(() -> 
@@ -406,10 +434,12 @@ public class View extends JFrame {
                         gameTimer.stop();
                         timerLabel.setText("00:00");
 
-                        // Send "End Game" signal 221 three times
-                        // for (int i = 0; i < 3; i++) {
-                            server.send("221");
-                        // }
+                        // Send "End Game" signal
+                        if(!gameEnd)
+                        {
+                            model.server.send("Game End");
+                            gameEnd = true;
+                        }
                     }
                 }
             }
