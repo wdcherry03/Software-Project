@@ -23,12 +23,10 @@ CD into this repository's directory and run "build.sh" It should take care of ev
 
 ## Starting the Game
 While entering players into the entry screen, use f12 to clear the screen if necessary.
-
 Once all players are entered, use the f5 key to begin the 30 second countdown which starts the game.
 
 ## Returning to Entry Screen
-After the game is over, you may return to the player entry screen by pressing the key F7
-
+After the game is over, you may return to the player entry screen by pressing the key F7.
 This will also clear all player entries, so you will be able to start a new game afterwards!
 
 # Group Members
