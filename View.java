@@ -21,7 +21,11 @@ public class View extends JFrame {
     public ArrayList<PlayerPanel> entries;
     public Audio audio; //Initial Audio object
 
-	// Constructor
+    // Booleans for game states
+    public boolean gameStart = false;
+    public boolean gameEnd = false;
+
+    // Constructor
 	public View(Model m, Controller c) {
 
 		// MVC
@@ -65,6 +69,11 @@ public class View extends JFrame {
 	public void dumpScreen() {
         this.removeAll();
 	}
+
+    public void resetGameState() {
+        gameStart = false;
+        gameEnd = false;
+    }
 
 	// Runs the entry screen
 	public void runEntry() {
@@ -267,6 +276,7 @@ public class View extends JFrame {
         model.clearPlayerLists();
     }
 
+    // Runs the game display
     public void runGame() {
 
         // Clears JFrame
@@ -398,7 +408,10 @@ public class View extends JFrame {
                         timerLabel.setText("06:00");
                         
                         // Send "Game Start" signal
-                        model.server.send("Game Start");
+                        if(!gameStart) {
+                            model.server.send("Game Start");
+                            gameStart = true;
+                        }
                     }
                     //Separate Thread to run tracks without interfering with game timer
                     new Thread(() -> 
@@ -421,7 +434,11 @@ public class View extends JFrame {
                         timerLabel.setText("00:00");
 
                         // Send "End Game" signal
-                        model.server.send("Game End"); // Indicating game end
+                        if(!gameEnd)
+                        {
+                            model.server.send("Game End");
+                            gameEnd = true;
+                        }
                     }
                 }
             }
