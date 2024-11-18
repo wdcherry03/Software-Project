@@ -62,7 +62,8 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 			case KeyEvent.VK_F5:
 				view.resetGameState(); // Sets 'gameStart' and 'gameEnd' to false
 				view.runGame(); break; // Go to gameplay screen
-			case KeyEvent.VK_F7: view.runEntry(); break; // Return to entry screen
+			case KeyEvent.VK_F7: view.runEntry();
+			view.clearEntries(); break; // Return to entry screen and clear arraylists
 			//case KeyEvent.VK_0: model.server.send(String.valueOf(12)); break;
 		}
 	}

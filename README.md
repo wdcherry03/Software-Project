@@ -21,6 +21,9 @@ CD into this repository's directory and run "build.sh" It should take care of ev
 
         bash build.sh
 
+## Returning to Entry Screen
+After the game is over, you may return to the player entry screen by pressing the key F7
+This will also clear all player entries, so you will be able to start a new game afterwards!
 
 # Group Members
 Drake Mayes - Catematics
