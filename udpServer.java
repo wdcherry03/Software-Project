@@ -15,6 +15,8 @@ public class udpServer {
 	byte[] buf;
 	public static udpServer server;
 	int code = 0;
+	public int i1;
+	public int i2;
 
 	// Costructor
 	public udpServer(int port, Model m)
@@ -54,8 +56,8 @@ public class udpServer {
 			String input = "";
 			String p1 = "";
 			String p2 = "";
-			int i1 = 0;
-			int i2 = 0;
+			i1 = 0;
+			i2 = 0;
 
 			// Recieve the data in byte buffer
 			try {
