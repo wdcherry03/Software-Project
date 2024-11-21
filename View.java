@@ -21,7 +21,7 @@ public class View extends JFrame {
     public ArrayList<PlayerPanel> entries;
     public Audio audio; //Initial Audio object
     public udpServer server; // UDP server socket
-    public JScrollPane scrollPane;
+    public JTextArea gameLogArea;
 
     // Booleans for game states
     public boolean gameStart = false;
@@ -222,7 +222,7 @@ public class View extends JFrame {
 
                     String codename = playerAddNameField.getText();
                     Player newPlayer = new Player(playerId, codename, hardwareId);
-                    model.addPlayerPSQL(playerId, codename, hardwareId);
+                    //model.addPlayerPSQL(playerId, codename, hardwareId);
                     model.addPlayerToLists(newPlayer);
 
                     // Adds to the player to the correct panel
@@ -382,9 +382,9 @@ public class View extends JFrame {
 
         // Game log panel
         JPanel gameLogPanel = new JPanel(new BorderLayout());
-        JTextArea gameLogArea = new JTextArea(10, 50);
+        gameLogArea = new JTextArea(10, 50);
         gameLogArea.setEditable(false);
-        scrollPane = new JScrollPane(gameLogArea);
+        JScrollPane scrollPane = new JScrollPane(gameLogArea);
         gameLogPanel.add(scrollPane, BorderLayout.CENTER);
         gameLogPanel.setBorder(BorderFactory.createTitledBorder("Game Log"));
 
@@ -485,10 +485,12 @@ public class View extends JFrame {
             // Red base (code 53)
             System.out.println(hardware1 + " hit the red base");
 
+            //I tried to add it the output here, did not work :(
+            gameLogArea.add(new JTextField(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the red base."));
+
             if (hardware1 % 2 == 0) {
                 // Green player hit red base, +100 points & stylized B to left of codename
                 model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitBase();
-                scrollPane.add(new JTextArea(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the enemy base."));
             }
             server.send(String.valueOf(hardware2));
         }
