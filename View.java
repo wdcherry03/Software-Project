@@ -21,6 +21,7 @@ public class View extends JFrame {
     public ArrayList<PlayerPanel> entries;
     public Audio audio; //Initial Audio object
     public udpServer server; // UDP server socket
+    public JScrollPane scrollPane;
 
     // Booleans for game states
     public boolean gameStart = false;
@@ -383,7 +384,7 @@ public class View extends JFrame {
         JPanel gameLogPanel = new JPanel(new BorderLayout());
         JTextArea gameLogArea = new JTextArea(10, 50);
         gameLogArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(gameLogArea);
+        scrollPane = new JScrollPane(gameLogArea);
         gameLogPanel.add(scrollPane, BorderLayout.CENTER);
         gameLogPanel.setBorder(BorderFactory.createTitledBorder("Game Log"));
 
@@ -487,6 +488,7 @@ public class View extends JFrame {
             if (hardware1 % 2 == 0) {
                 // Green player hit red base, +100 points & stylized B to left of codename
                 model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitBase();
+                scrollPane.add(new JTextArea(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the enemy base."));
             }
             server.send(String.valueOf(hardware2));
         }
