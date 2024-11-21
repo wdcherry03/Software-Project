@@ -222,7 +222,7 @@ public class View extends JFrame {
 
                     String codename = playerAddNameField.getText();
                     Player newPlayer = new Player(playerId, codename, hardwareId);
-                    //model.addPlayerPSQL(playerId, codename, hardwareId);
+                    model.addPlayerPSQL(playerId, codename, hardwareId);
                     model.addPlayerToLists(newPlayer);
 
                     // Adds to the player to the correct panel
