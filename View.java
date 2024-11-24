@@ -419,70 +419,11 @@ public class View extends JFrame {
         timerPanel.addKeyListener(controller);
         // System.out.println("This only prints once");
         // Startup and Game Timer logic
-        final int[] secondsRemaining = {5}; // Initial 30 seconds for startup
-        gameTimer = new javax.swing.Timer(1000, new ActionListener() {
-            boolean isStartupPhase = true;
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // System.out.println("This prints every timer update");
-                if (isStartupPhase) {
-                    // Countdown for the startup phase
-                    secondsRemaining[0]--;
-                    int minutes = secondsRemaining[0] / 60;
-                    int remainingSeconds = secondsRemaining[0] % 60;
-                    timerLabel.setText(String.format("%02d:%02d", minutes, remainingSeconds));
-
-                    if (secondsRemaining[0] <= 0) {
-                        // Transition from startup to game timer
-                        isStartupPhase = false;
-                        secondsRemaining[0] = 360; // 6 minutes in seconds
-                        timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
-                        timerLabel.setText("06:00");
-
-                        // Send "Game Start" signal 202 after countdown timer finishes
-                        if (!gameStart) {
-                            // Separate Thread to run UDP server
-                            new Thread(() -> {
-                                server.run();
-                            }).start();
-                            server.send("202");
-                            gameStart = true;
-                        }
-                    }
-                    // Separate Thread to run tracks without interfering with game timer
-                    new Thread(() -> {
-                        if (minutes == 0 && remainingSeconds == 18) {
-                            audio.run();
-                        }
-                    }).start();
-                } else {
-                    // Countdown for the game phase
-                    secondsRemaining[0]--;
-                    int minutes = secondsRemaining[0] / 60;
-                    int remainingSeconds = secondsRemaining[0] % 60;
-                    timerLabel.setText(String.format("%02d:%02d", minutes, remainingSeconds));
-
-                    if (secondsRemaining[0] <= 0) {
-                        // End of the game timer
-                        gameTimer.stop();
-                        timerLabel.setText("00:00");
-
-                        // Send "End Game" signal 221 three times
-                        if (!gameEnd) {
-                            for (int i = 0; i < 3; i++) {
-                                server.send("221");
-                            }
-                            gameEnd = true;
-                        }
-                    }
-                }
-
-                // Trigger repaint to update the game screen (this will re-render the player scores and status)
-                repaint();
-            }
-        });
-        gameTimer.start(); // Start the timer with startup countdown
+        final int startupDuration = 30; // 30 seconds for startup timer
+        final int gameDuration = 360; // 6 minutes for game timer
+        
+        startStartupTimer(startupDuration, gameDuration, timerLabel, timerPanel);
 
         // Layout for the main game screen
         JPanel gameScreen = new JPanel(new BorderLayout());
@@ -495,6 +436,70 @@ public class View extends JFrame {
         this.add(gameScreen);
         this.revalidate();
         this.repaint();
+    }
+
+    // Helper to handle the startup timer
+    private void startStartupTimer(int startupDuration, int gameDuration, JLabel timerLabel, JPanel timerPanel) {
+        final int[] secondsRemaining = {startupDuration};
+        gameTimer = new javax.swing.Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                secondsRemaining[0]--;
+                updateTimerLabel(secondsRemaining[0], timerLabel);
+
+                if (secondsRemaining[0] <= 0) {
+                    gameTimer.stop();
+                    startGameTimer(gameDuration, timerLabel, timerPanel);
+                }
+            }
+        });
+        gameTimer.start();
+    }
+
+    // Helper to handle the game timer
+    private void startGameTimer(int gameDuration, JLabel timerLabel, JPanel timerPanel) {
+        final int[] secondsRemaining = {gameDuration};
+        timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
+        timerLabel.setText(formatTime(gameDuration));
+
+        gameTimer = new javax.swing.Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                secondsRemaining[0]--;
+                updateTimerLabel(secondsRemaining[0], timerLabel);
+
+                if (secondsRemaining[0] <= 0) {
+                    gameTimer.stop();
+                    endGame();
+                }
+            }
+        });
+        gameTimer.start();
+    }
+
+    // Helper to update the timer label
+    private void updateTimerLabel(int secondsRemaining, JLabel timerLabel) {
+        int minutes = secondsRemaining / 60;
+        int remainingSeconds = secondsRemaining % 60;
+        timerLabel.setText(String.format("%02d:%02d", minutes, remainingSeconds));
+    }
+
+    // Helper to format time as "MM:SS"
+    private String formatTime(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    // Helper to handle game end logic
+    private void endGame() {
+        if (!gameEnd) {
+            for (int i = 0; i < 3; i++) {
+                server.send("221");
+            }
+            gameEnd = true;
+        }
+        repaint();
     }
 
     // Event handling
