@@ -4,7 +4,7 @@ public class Player {
    public int playerID;
    public String codename;
    public int hardwareID;
-   public int score = 0;
+   public int score;
    public boolean atBase = false;
 
    public void hitBase() {

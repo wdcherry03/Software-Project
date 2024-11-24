@@ -21,7 +21,7 @@ public class View extends JFrame {
     public ArrayList<PlayerPanel> entries;
     public Audio audio; //Initial Audio object
     public udpServer server; // UDP server socket
-    public JTextArea gameLogArea;
+    public JPanel gameLogArea;
 
     // Booleans for game states
     public boolean gameStart = false;
@@ -301,6 +301,7 @@ public class View extends JFrame {
         redTeamHeader.add(new JLabel("PLAYER ID", JLabel.LEFT));
         redTeamHeader.add(new JLabel("SCORE", JLabel.LEFT));
         redTeamHeader.setBackground(Color.RED);
+        redTeamHeader.addKeyListener(controller);
 
         redTeamPanel.add(redTeamHeader);
         redTeamPanel.setBackground(Color.RED);
@@ -308,9 +309,10 @@ public class View extends JFrame {
         // Add table headers for GREEN Team
         JPanel greenTeamHeader = new JPanel(new GridLayout(1, 3));
         greenTeamHeader.add(new JLabel("PLAYER NAME", JLabel.LEFT));
-        greenTeamHeader.add(new JLabel("PLAYER ID", JLabel.LEFT));
-        greenTeamHeader.add(new JLabel("SCORE", JLabel.LEFT));
+        greenTeamHeader.add(new JLabel("PLAYER ID", JLabel.CENTER));
+        greenTeamHeader.add(new JLabel("SCORE", JLabel.RIGHT));
         greenTeamHeader.setBackground(Color.GREEN);
+        greenTeamHeader.addKeyListener(controller);
 
         greenTeamPanel.add(greenTeamHeader);
         greenTeamPanel.setBackground(Color.GREEN);
@@ -325,15 +327,19 @@ public class View extends JFrame {
             playerRow.add(new JLabel(redPlayer.codename, JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(redPlayer.playerID), JLabel.CENTER));
             playerRow.add(new JLabel(String.valueOf(redPlayer.score), JLabel.RIGHT)); // Assuming Player class has 'score'
+            playerRow.addKeyListener(controller);
 
             // Check if the player is at base and add a stylized "B" if true
             if (redPlayer.atBase) {
                 JLabel baseIcon = new JLabel("B", JLabel.CENTER);
                 baseIcon.setFont(new Font("Arial", Font.BOLD, 16));
                 baseIcon.setForeground(Color.BLUE);
+                baseIcon.addKeyListener(controller);
                 playerRow.add(baseIcon);
             } else {
-                playerRow.add(new JLabel()); // Placeholder for alignment
+                JLabel temp = new JLabel();
+                temp.addKeyListener(controller);
+                playerRow.add(temp); // Placeholder for alignment
             }
 
             redTeamPanel.add(playerRow);
@@ -346,15 +352,19 @@ public class View extends JFrame {
             playerRow.add(new JLabel(greenPlayer.codename, JLabel.LEFT));
             playerRow.add(new JLabel(String.valueOf(greenPlayer.playerID), JLabel.CENTER));
             playerRow.add(new JLabel(String.valueOf(greenPlayer.score), JLabel.RIGHT)); // Assuming Player class has 'score'
+            playerRow.addKeyListener(controller);
 
             // Check if the player is at base and add a stylized "B" if true
             if (greenPlayer.atBase) {
                 JLabel baseIcon = new JLabel("B", JLabel.CENTER);
                 baseIcon.setFont(new Font("Arial", Font.BOLD, 16));
                 baseIcon.setForeground(Color.BLUE);
+                baseIcon.addKeyListener(controller);
                 playerRow.add(baseIcon);
             } else {
-                playerRow.add(new JLabel()); // Placeholder for alignment
+                JLabel temp = new JLabel();
+                temp.addKeyListener(controller);
+                playerRow.add(temp); // Placeholder for alignment
             }
 
             greenTeamPanel.add(playerRow);
@@ -364,39 +374,52 @@ public class View extends JFrame {
         // Add cumulative score row for the RED team
         JPanel redTotalScoreRow = new JPanel(new GridLayout(1, 3));
         redTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
-        redTotalScoreRow.add(new JLabel("", JLabel.LEFT)); // Empty label for the Player ID column
-        redTotalScoreRow.add(new JLabel(String.valueOf(redTotalScore), JLabel.LEFT));
+        redTotalScoreRow.add(new JLabel("", JLabel.CENTER)); // Empty label for the Player ID column
+        redTotalScoreRow.add(new JLabel(String.valueOf(redTotalScore), JLabel.RIGHT));
+        redTotalScoreRow.addKeyListener(controller);
         redTeamPanel.add(redTotalScoreRow);
 
         // Add cumulative score row for the GREEN team
         JPanel greenTotalScoreRow = new JPanel(new GridLayout(1, 3));
         greenTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
-        greenTotalScoreRow.add(new JLabel("", JLabel.LEFT)); // Empty label for the Player ID column
-        greenTotalScoreRow.add(new JLabel(String.valueOf(greenTotalScore), JLabel.LEFT));
+        greenTotalScoreRow.add(new JLabel("", JLabel.CENTER)); // Empty label for the Player ID column
+        greenTotalScoreRow.add(new JLabel(String.valueOf(greenTotalScore), JLabel.RIGHT));
+        greenTotalScoreRow.addKeyListener(controller);
         greenTeamPanel.add(greenTotalScoreRow);
+
+        // Adds key listeners
+        redTeamPanel.addKeyListener(controller);
+        greenTeamPanel.addKeyListener(controller);
 
         // Create panel to hold both team panels side by side
         JPanel teamsPanel = new JPanel(new GridLayout(1, 2));
         teamsPanel.add(redTeamPanel);
         teamsPanel.add(greenTeamPanel);
+        teamsPanel.addKeyListener(controller);
 
         // Game log panel
         JPanel gameLogPanel = new JPanel(new BorderLayout());
-        gameLogArea = new JTextArea(10, 50);
-        gameLogArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(gameLogArea);
-        gameLogPanel.add(scrollPane, BorderLayout.CENTER);
+        gameLogArea = new JPanel(new GridLayout(8, 1));
+        JTextField newGameLog = new JTextField("Game Started.");
+        newGameLog.setEditable(false);
+        newGameLog.addKeyListener(controller);
+        gameLogArea.add(newGameLog);
+        gameLogArea.addKeyListener(controller);
+        gameLogPanel.add(gameLogArea, BorderLayout.CENTER);
         gameLogPanel.setBorder(BorderFactory.createTitledBorder("Game Log"));
+        gameLogPanel.addKeyListener(controller);
 
         // Timer Panel
         JPanel timerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel timerLabel = new JLabel("00:30"); // Startup timer starts at 30 seconds
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        timerLabel.addKeyListener(controller);
         timerPanel.add(timerLabel);
         timerPanel.setBorder(BorderFactory.createTitledBorder("Startup Timer"));
+        timerPanel.addKeyListener(controller);
         // System.out.println("This only prints once");
         // Startup and Game Timer logic
-        final int[] secondsRemaining = {30}; // Initial 30 seconds for startup
+        final int[] secondsRemaining = {5}; // Initial 30 seconds for startup
         gameTimer = new javax.swing.Timer(1000, new ActionListener() {
             boolean isStartupPhase = true;
 
@@ -466,6 +489,7 @@ public class View extends JFrame {
         gameScreen.add(teamsPanel, BorderLayout.NORTH);
         gameScreen.add(gameLogPanel, BorderLayout.CENTER);
         gameScreen.add(timerPanel, BorderLayout.SOUTH);
+        gameScreen.addKeyListener(controller);
 
         // Add the entire game screen to the JFrame
         this.add(gameScreen);
@@ -475,7 +499,6 @@ public class View extends JFrame {
 
     // Event handling
     public void eventOccured(int hardware1, int hardware2) {
-        // System.out.println("Event occured");
 
         if (gameEnd)
             return;
@@ -485,8 +508,16 @@ public class View extends JFrame {
             // Red base (code 53)
             System.out.println(hardware1 + " hit the red base");
 
-            //I tried to add it the output here, did not work :(
-            gameLogArea.add(new JTextField(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the red base."));
+            // Updates the game log area
+            JTextField newGameLog = new JTextField(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the red base");
+            newGameLog.setEditable(false);
+            newGameLog.addKeyListener(controller);
+
+            // Removes the first entry before entering new entry if we're at limit
+            if (gameLogArea.getComponents().length >= 8) {
+                gameLogArea.remove(gameLogArea.getComponents()[0]);
+            }
+            gameLogArea.add(newGameLog);
 
             if (hardware1 % 2 == 0) {
                 // Green player hit red base, +100 points & stylized B to left of codename
@@ -498,6 +529,17 @@ public class View extends JFrame {
             // Green base (code 43)
             System.out.println(hardware1 + " hit the green base");
 
+            // Updates the game log area
+            JTextField newGameLog = new JTextField(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the green base");
+            newGameLog.setEditable(false);
+            newGameLog.addKeyListener(controller);
+
+            // Removes the first entry before entering new entry if we're at limit
+            if (gameLogArea.getComponents().length >= 8) {
+                gameLogArea.remove(gameLogArea.getComponents()[0]);
+            }
+            gameLogArea.add(newGameLog);
+
             if (hardware1 % 2 == 1) {
                 // Red player hit green base, +100 points & stylized B to left of codename
                 model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitBase();
@@ -507,6 +549,18 @@ public class View extends JFrame {
         else if (hardware1 % 2 != hardware2 % 2) {
             // Player hit other team, transmit hit player id
             System.out.println(hardware1 + " hit an enemy player");
+
+            // Updates the game log area
+            JTextField newGameLog = new JTextField(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the enemy player " + model.allPlayersList.get(model.checkPlayerListByHardware(hardware2)).codename);
+            newGameLog.setEditable(false);
+            newGameLog.addKeyListener(controller);
+
+            // Removes the first entry before entering new entry if we're at limit
+            if (gameLogArea.getComponents().length >= 8) {
+                gameLogArea.remove(gameLogArea.getComponents()[0]);
+            }
+            gameLogArea.add(newGameLog);
+
             model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitEnemyPlayer();
             server.send(String.valueOf(hardware2));
             // +10 points for player
@@ -514,11 +568,24 @@ public class View extends JFrame {
         else {
             // Player hit same team, transmit own player id
             System.out.println(hardware1 + " hit a teammate");
+
+            // Updates the game log area
+            JTextField newGameLog = new JTextField(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit an ally player " + model.allPlayersList.get(model.checkPlayerListByHardware(hardware2)).codename);
+            newGameLog.setEditable(false);
+            newGameLog.addKeyListener(controller);
+
+            // Removes the first entry before entering new entry if we're at limit
+            if (gameLogArea.getComponents().length >= 8) {
+                gameLogArea.remove(gameLogArea.getComponents()[0]);
+            }
+            gameLogArea.add(newGameLog);
+
             model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitTeamPlayer();
             server.send(String.valueOf(hardware1));
             // -10 points for player
         }
         
+        this.repaint();
         this.scrollBoxUpdate(hardware1, hardware2);
     }
 
@@ -536,5 +603,7 @@ public class View extends JFrame {
             String codename2 = model.allPlayersList.get(model.checkPlayerListByHardware(hardware2)).codename;
             System.out.println(codename1 + " hit " + codename2);
         }
+
+        this.repaint();
     }
 }
