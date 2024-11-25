@@ -203,6 +203,7 @@ public class Model {
 	public void clearPlayerLists() {
 		redPlayerList.clear();
 		greenPlayerList.clear();
+		allPlayersList.clear();
 	}
 
 	// MVC components
