@@ -209,4 +209,19 @@ public class Model {
 	public void setView(View v) {
 		view = v;
 	}
+
+	public Player getPlayerById(int targetID) {
+		Player targetPlayer = null;
+
+		for(Player player : redPlayerList)
+			if(player.playerID == targetID)
+				targetPlayer = player;
+		
+		for(Player player : greenPlayerList)
+			if(player.playerID == targetID)
+				targetPlayer = player;
+	
+
+		return targetPlayer;
+	}
 }
