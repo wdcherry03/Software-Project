@@ -635,7 +635,7 @@ public class View extends JFrame {
             // -10 points for player
         }
 
-        updateAllPlayerRows();
+        organizePlayersByScore();
         this.repaint();
         this.scrollBoxUpdate(hardware1, hardware2);
     }
