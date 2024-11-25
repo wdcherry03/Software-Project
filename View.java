@@ -668,6 +668,22 @@ public class View extends JFrame {
         updateAllPlayerRows();
         updateScore(redTotalScoreRow, true);
         updateScore(greenTotalScoreRow, false);
+        if(greenTotalScore > redTotalScore)
+        {
+            greenTotalScoreRow.getComponent(2).setForeground(Color.GREEN);
+            redTotalScoreRow.getComponent(2).setForeground(Color.BLACK);
+        }
+        if(redTotalScore > greenTotalScore)
+        {
+            redTotalScoreRow.getComponent(2).setForeground(Color.RED);
+            greenTotalScoreRow.getComponent(2).setForeground(Color.BLACK);
+        }
+        if(redTotalScore == greenTotalScore)
+        {
+        
+            redTotalScoreRow.getComponent(2).setForeground(Color.BLACK);
+            greenTotalScoreRow.getComponent(2).setForeground(Color.BLACK);
+        }
         this.repaint();
         this.scrollBoxUpdate(hardware1, hardware2);
     }
