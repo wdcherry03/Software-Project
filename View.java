@@ -302,6 +302,9 @@ public class View extends JFrame {
         // Panel for red and green teams' scoreboards
         JPanel redTeamPanel = new JPanel(new GridLayout(21, 1)); // 21 rows, 20 players
         JPanel greenTeamPanel = new JPanel(new GridLayout(21, 1)); // 21 rows, 20 players
+
+        redTeamPanel.addKeyListener(controller);
+        greenTeamPanel.addKeyListener(controller);
     
         // Add table headers for RED Team
         JPanel redTeamHeader = new JPanel(new GridLayout(1, 3));
@@ -359,6 +362,7 @@ public class View extends JFrame {
         JPanel teamsPanel = new JPanel(new GridLayout(1, 2));
         teamsPanel.add(redTeamPanel);
         teamsPanel.add(greenTeamPanel);
+        teamsPanel.addKeyListener(controller);
     
         // Game log panel
         JPanel gameLogPanel = new JPanel(new BorderLayout());
@@ -368,6 +372,7 @@ public class View extends JFrame {
         gameLogArea.add(newGameLog);
         gameLogPanel.add(gameLogArea, BorderLayout.CENTER);
         gameLogPanel.setBorder(BorderFactory.createTitledBorder("Game Log"));
+        gameLogPanel.addKeyListener(controller);
     
         // Timer Panel
         JPanel timerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -375,6 +380,7 @@ public class View extends JFrame {
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         timerPanel.add(timerLabel);
         timerPanel.setBorder(BorderFactory.createTitledBorder("Startup Timer"));
+        timerPanel.addKeyListener(controller);
     
         // Startup and Game Timer logic
         final int startupDuration = 30; // 30 seconds for startup timer
@@ -386,6 +392,7 @@ public class View extends JFrame {
         gameScreen.add(teamsPanel, BorderLayout.NORTH);
         gameScreen.add(gameLogPanel, BorderLayout.CENTER);
         gameScreen.add(timerPanel, BorderLayout.SOUTH);
+        gameScreen.addKeyListener(controller);
     
         // Add the entire game screen to the JFrame
         this.add(gameScreen);
