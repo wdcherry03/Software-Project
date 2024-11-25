@@ -225,4 +225,13 @@ public class Model {
 
 		return targetPlayer;
 	}
+
+	// Sorts both red and green teams by player score in descending order
+	public void sortTeamsByScore() {
+		// Sort the red team by score in descending order
+		Collections.sort(redPlayerList, (p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+
+		// Sort the green team by score in descending order
+		Collections.sort(greenPlayerList, (p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+	}
 }

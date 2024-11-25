@@ -20,6 +20,10 @@ public class Player {
       score -= 10;
    }
 
+   public int getScore() {
+      return score;
+   }
+
    // Constructor
    public Player(int PlayerID, String Codename, int HardwareID) {
       playerID = PlayerID;

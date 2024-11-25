@@ -413,40 +413,6 @@ public class View extends JFrame {
         gameTimer.start();
     }
 
-    public void sortPlayerRowsByScore() {
-        // Sort the redPlayerRows map by player score in descending order
-        redPlayerRows = sortMapByScore(redPlayerRows);
-    
-        // Sort the greenPlayerRows map by player score in descending order
-        greenPlayerRows = sortMapByScore(greenPlayerRows);
-    
-        // After sorting, update the player rows in the GUI
-        updateAllPlayerRows();
-    }
-    
-    // Helper method to sort the map by player score in descending order
-    private Map<Integer, JPanel> sortMapByScore(Map<Integer, JPanel> playerRows) {
-        // Create a list from the map's entries
-        List<Map.Entry<Integer, JPanel>> playerList = new ArrayList<>(playerRows.entrySet());
-    
-        // Sort the list by the score of each player, in descending order
-        playerList.sort((entry1, entry2) -> {
-            Player player1 = model.getPlayerById(entry1.getKey());  // Get the player by ID
-            Player player2 = model.getPlayerById(entry2.getKey());
-            return Integer.compare(player2.score, player1.score);  // Compare scores
-        });
-    
-        // Create a new linked map to store the sorted entries
-        Map<Integer, JPanel> sortedMap = new LinkedHashMap<>();
-    
-        // Re-populate the sorted map
-        for (Map.Entry<Integer, JPanel> entry : playerList) {
-            sortedMap.put(entry.getKey(), entry.getValue());
-        }
-    
-        return sortedMap;
-    }
-
     public JPanel createPlayerRow(Player player, boolean isRedTeam) {
         // Create panel with 4 columns
         JPanel playerRow = new JPanel(new GridLayout(1, 4));
@@ -659,7 +625,8 @@ public class View extends JFrame {
             // -10 points for player
         }
 
-        sortPlayerRowsByScore();
+        model.sortTeamsByScore();
+        updateAllPlayerRows();
         this.repaint();
         this.scrollBoxUpdate(hardware1, hardware2);
     }
