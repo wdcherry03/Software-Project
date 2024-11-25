@@ -5,11 +5,10 @@
  * Calls other components to handle signals and database stuff.
  */
 
- import java.util.*;
-import java.util.List;
+import java.util.*;
 import java.awt.*;
- import javax.swing.*;
- import java.awt.event.*;
+import javax.swing.*;
+import java.awt.event.*;
 
 public class View extends JFrame {
 
