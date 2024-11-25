@@ -226,12 +226,21 @@ public class Model {
 		return targetPlayer;
 	}
 
-	// Sorts both red and green teams by player score in descending order
 	public void sortTeamsByScore() {
-		// Sort the red team by score in descending order
-		Collections.sort(redPlayerList, (p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
-
-		// Sort the green team by score in descending order
-		Collections.sort(greenPlayerList, (p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+		// Sort Red Players
+		Collections.sort(redPlayerList, new Comparator<Player>() {
+			@Override
+			public int compare(Player p1, Player p2) {
+				return Integer.compare(p2.playerID, p1.playerID); // Descending order
+			}
+		});
+	
+		// Sort Green Players
+		Collections.sort(greenPlayerList, new Comparator<Player>() {
+			@Override
+			public int compare(Player p1, Player p2) {
+				return Integer.compare(p2.playerID, p1.playerID); // Descending order
+			}
+		});
 	}
 }
