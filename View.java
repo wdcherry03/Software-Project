@@ -462,11 +462,24 @@ public class View extends JFrame {
         timerPanel.setBorder(BorderFactory.createTitledBorder("Game Timer"));
         timerLabel.setText(formatTime(gameDuration));
 
+        // Send "Game Start" signal 202 after countdown timer finishes
+        if (!gameStart) {
+            // Separate Thread to run UDP server
+            new Thread(() -> {
+                server.run();
+            }).start();
+            server.send("202");
+            gameStart = true;
+        }
+
         gameTimer = new javax.swing.Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 secondsRemaining[0]--;
                 updateTimerLabel(secondsRemaining[0], timerLabel);
+
+                // Testing to make sure scores update
+                System.out.println(model.allPlayersList.get(1).codename + " score = " + model.allPlayersList.get(1).score);
 
                 if (secondsRemaining[0] <= 0) {
                     gameTimer.stop();
