@@ -412,6 +412,17 @@ public class View extends JFrame {
         gameTimer.start();
     }
 
+    public void sortPlayersByScore() {
+        // Sort the red team players by score in descending order
+        Collections.sort(model.redPlayerList, (p1, p2) -> Integer.compare(p2.score, p1.score));
+    
+        // Sort the green team players by score in descending order
+        Collections.sort(model.greenPlayerList, (p1, p2) -> Integer.compare(p2.score, p1.score));
+    
+        // After sorting, update the player rows in the GUI
+        updateAllPlayerRows();
+    }
+
     public JPanel createPlayerRow(Player player, boolean isRedTeam) {
         // Create panel with 4 columns
         JPanel playerRow = new JPanel(new GridLayout(1, 4));
@@ -479,17 +490,6 @@ public class View extends JFrame {
             updatePlayerRow(greenPlayer, false);
         }
     }
-
-    public void organizePlayersByScore() {
-        // Sort the red team players by score (highest to lowest)
-        model.redPlayerList.sort((p1, p2) -> Integer.compare(p2.score, p1.score));
-    
-        // Sort the green team players by score (highest to lowest)
-        model.greenPlayerList.sort((p1, p2) -> Integer.compare(p2.score, p1.score));
-    
-        // Re-render the rows for both teams
-        updateAllPlayerRows();
-    }  
 
     // Helper to handle the game timer
     private void startGameTimer(int gameDuration, JLabel timerLabel, JPanel timerPanel) {
@@ -635,7 +635,7 @@ public class View extends JFrame {
             // -10 points for player
         }
 
-        organizePlayersByScore();
+        updateAllPlayerRows();
         this.repaint();
         this.scrollBoxUpdate(hardware1, hardware2);
     }
