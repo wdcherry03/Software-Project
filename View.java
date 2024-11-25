@@ -27,6 +27,10 @@ public class View extends JFrame {
     public boolean gameStart = false;
     public boolean gameEnd = false;
 
+    // Maps for player list
+    public Map<Integer, JPanel> redPlayerRows = new HashMap<>();
+    public Map<Integer, JPanel> greenPlayerRows = new HashMap<>();
+
     // Constructor
 	public View(Model m, Controller c) {
 
@@ -285,7 +289,6 @@ public class View extends JFrame {
         model.clearPlayerLists();
     }
 
-    // Runs the game display
     public void runGame() {
         // Clears JFrame
         this.getContentPane().removeAll();
@@ -320,6 +323,7 @@ public class View extends JFrame {
         for (Player redPlayer : model.redPlayerList) {
             JPanel playerRow = createPlayerRow(redPlayer, true);  // Create player row for red team
             redTeamPanel.add(playerRow);
+            redPlayerRows.put(redPlayer.playerID, playerRow); // Store the row in the map
             redTotalScore += redPlayer.score; // Add player's score to the cumulative score
         }
     
@@ -327,6 +331,7 @@ public class View extends JFrame {
         for (Player greenPlayer : model.greenPlayerList) {
             JPanel playerRow = createPlayerRow(greenPlayer, false); // Create player row for green team
             greenTeamPanel.add(playerRow);
+            greenPlayerRows.put(greenPlayer.playerID, playerRow); // Store the row in the map
             greenTotalScore += greenPlayer.score; // Add player's score to the cumulative score
         }
     
@@ -380,7 +385,7 @@ public class View extends JFrame {
         this.add(gameScreen);
         this.revalidate();
         this.repaint();
-    }
+    }    
 
     // Helper to handle the startup timer
     private void startStartupTimer(int startupDuration, int gameDuration, JLabel timerLabel, JPanel timerPanel) {
@@ -407,7 +412,7 @@ public class View extends JFrame {
         // Add player details
         playerRow.add(new JLabel(player.codename, JLabel.LEFT));
         playerRow.add(new JLabel(String.valueOf(player.playerID), JLabel.CENTER));
-        playerRow.add(new JLabel(String.valueOf(player.score), JLabel.RIGHT));
+        playerRow.add(new JLabel(String.valueOf(player.score), JLabel.RIGHT)); // Assuming Player class has 'score'
     
         // Check if the player is at base and add a stylized "B" if true
         if (player.atBase) {
@@ -425,7 +430,48 @@ public class View extends JFrame {
         playerRow.addKeyListener(controller);
     
         return playerRow;
-    }  
+    }    
+
+    public void updatePlayerRow(Player player, boolean isRedTeam) {
+        // Find the correct map based on the team
+        Map<Integer, JPanel> playerRows = isRedTeam ? redPlayerRows : greenPlayerRows;
+    
+        // Find the player's row by player ID
+        JPanel playerRow = playerRows.get(player.playerID);
+        
+        if (playerRow != null) {
+            // Update the labels with new information (name, ID, score)
+            JLabel nameLabel = (JLabel) playerRow.getComponent(0);
+            JLabel idLabel = (JLabel) playerRow.getComponent(1);
+            JLabel scoreLabel = (JLabel) playerRow.getComponent(2);
+            JLabel baseLabel = (JLabel) playerRow.getComponent(3); // The base icon is the 4th component
+    
+            // Update the player information in the row
+            nameLabel.setText(player.codename);
+            idLabel.setText(String.valueOf(player.playerID));
+            scoreLabel.setText(String.valueOf(player.score));
+    
+            // Update the "B" base icon
+            if (player.atBase) {
+                baseLabel.setText("B");
+                baseLabel.setForeground(Color.BLUE); // Ensure the base icon is visible and styled
+            } else {
+                baseLabel.setText(""); // Remove the "B" if the player is not at base
+            }
+        }
+    }
+    
+    public void updateAllPlayerRows() {
+        // Update all red team player rows
+        for (Player redPlayer : model.redPlayerList) {
+            updatePlayerRow(redPlayer, true);
+        }
+    
+        // Update all green team player rows
+        for (Player greenPlayer : model.greenPlayerList) {
+            updatePlayerRow(greenPlayer, false);
+        }
+    }
 
     // Helper to handle the game timer
     private void startGameTimer(int gameDuration, JLabel timerLabel, JPanel timerPanel) {
@@ -574,6 +620,7 @@ public class View extends JFrame {
             // -10 points for player
         }
 
+        updateAllPlayerRows();
         this.repaint();
         this.scrollBoxUpdate(hardware1, hardware2);
     }
