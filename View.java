@@ -31,6 +31,7 @@ public class View extends JFrame {
     // Booleans for game states
     public boolean gameStart = false;
     public boolean gameEnd = false;
+    public boolean serverStart = false;
 
     // Maps for player list
     public Map<Integer, JPanel> redPlayerRows = new HashMap<>();
@@ -509,14 +510,15 @@ public class View extends JFrame {
         timerLabel.setText(formatTime(gameDuration));
 
         // Send "Game Start" signal 202 after countdown timer finishes
-        if (!gameStart) {
+        if (!serverStart) {
             // Separate Thread to run UDP server
             new Thread(() -> {
                 server.run();
             }).start();
-            server.send("202");
-            gameStart = true;
+            serverStart = true;
         }
+        server.send("202");
+
 
         gameTimer = new javax.swing.Timer(1000, new ActionListener() {
             @Override
