@@ -473,6 +473,17 @@ public class View extends JFrame {
         }
     }
 
+    public void organizePlayersByScore() {
+        // Sort the red team players by score (highest to lowest)
+        model.redPlayerList.sort((p1, p2) -> Integer.compare(p2.score, p1.score));
+    
+        // Sort the green team players by score (highest to lowest)
+        model.greenPlayerList.sort((p1, p2) -> Integer.compare(p2.score, p1.score));
+    
+        // Re-render the rows for both teams
+        updateAllPlayerRows();
+    }  
+
     // Helper to handle the game timer
     private void startGameTimer(int gameDuration, JLabel timerLabel, JPanel timerPanel) {
         final int[] secondsRemaining = {gameDuration};
