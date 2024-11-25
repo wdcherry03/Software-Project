@@ -344,14 +344,14 @@ public class View extends JFrame {
         redTotalScoreRow = new JPanel(new GridLayout(1, 3));
         redTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
         redTotalScoreRow.add(new JLabel("", JLabel.CENTER)); // Empty label for the Player ID column
-        redTotalScoreRow.add(new JLabel(String.valueOf(redTotalScore), JLabel.RIGHT));
+        redTotalScoreRow.add(new JLabel(String.valueOf(redTotalScore), JLabel.CENTER));
         redTeamPanel.add(redTotalScoreRow);
     
         // Add cumulative score row for the GREEN team
         greenTotalScoreRow = new JPanel(new GridLayout(1, 3));
         greenTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
         greenTotalScoreRow.add(new JLabel("", JLabel.CENTER)); // Empty label for the Player ID column
-        greenTotalScoreRow.add(new JLabel(String.valueOf(greenTotalScore), JLabel.RIGHT));
+        greenTotalScoreRow.add(new JLabel(String.valueOf(greenTotalScore), JLabel.CENTER));
         greenTeamPanel.add(greenTotalScoreRow);
     
         // Create panel to hold both team panels side by side
