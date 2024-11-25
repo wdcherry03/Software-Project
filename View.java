@@ -23,6 +23,10 @@ public class View extends JFrame {
     public Audio audio; //Initial Audio object
     public udpServer server; // UDP server socket
     public JPanel gameLogArea;
+    public int greenTotalScore;
+    public int redTotalScore;
+    JPanel redTotalScoreRow;
+    JPanel greenTotalScoreRow;
 
     // Booleans for game states
     public boolean gameStart = false;
@@ -317,8 +321,8 @@ public class View extends JFrame {
         greenTeamPanel.setBackground(Color.GREEN);
     
         // Initialize total scores for both teams
-        int redTotalScore = 0;
-        int greenTotalScore = 0;
+        redTotalScore = 0;
+        greenTotalScore = 0;
     
         // Populate red team players with scores and accumulate the total score
         for (Player redPlayer : model.redPlayerList) {
@@ -337,14 +341,14 @@ public class View extends JFrame {
         }
     
         // Add cumulative score row for the RED team
-        JPanel redTotalScoreRow = new JPanel(new GridLayout(1, 3));
+        redTotalScoreRow = new JPanel(new GridLayout(1, 3));
         redTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
         redTotalScoreRow.add(new JLabel("", JLabel.CENTER)); // Empty label for the Player ID column
         redTotalScoreRow.add(new JLabel(String.valueOf(redTotalScore), JLabel.RIGHT));
         redTeamPanel.add(redTotalScoreRow);
     
         // Add cumulative score row for the GREEN team
-        JPanel greenTotalScoreRow = new JPanel(new GridLayout(1, 3));
+        greenTotalScoreRow = new JPanel(new GridLayout(1, 3));
         greenTotalScoreRow.add(new JLabel("TOTAL", JLabel.LEFT));
         greenTotalScoreRow.add(new JLabel("", JLabel.CENTER)); // Empty label for the Player ID column
         greenTotalScoreRow.add(new JLabel(String.valueOf(greenTotalScore), JLabel.RIGHT));
@@ -373,7 +377,7 @@ public class View extends JFrame {
     
         // Startup and Game Timer logic
         final int startupDuration = 30; // 30 seconds for startup timer
-        final int gameDuration = 360; // 6 minutes for game timer
+        final int gameDuration = 360; // 6 minutes, 360 seconds for game timer
         startStartupTimer(startupDuration, gameDuration, timerLabel, timerPanel);
     
         // Layout for the main game screen
@@ -439,6 +443,23 @@ public class View extends JFrame {
     
         return playerRow;
     }    
+
+    public void updateScore(JPanel score, boolean isRedTeam)
+    {
+        if(score != null)
+        {
+            if(isRedTeam)
+            {
+                JLabel scoreLabel = (JLabel) score.getComponent(2);
+                scoreLabel.setText(String.valueOf(redTotalScore));
+            }
+            else
+            {
+                JLabel scoreLabel = (JLabel) score.getComponent(2);
+                scoreLabel.setText(String.valueOf(greenTotalScore));
+            }
+        }
+    }
 
     public void updatePlayerRow(Player player, boolean isRedTeam) {
         // Find the correct map based on the team
@@ -550,6 +571,7 @@ public class View extends JFrame {
 
             // Updates the game log area
             JTextField newGameLog = new JTextField(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the red base");
+            greenTotalScore += 100;
             newGameLog.setEditable(false);
             newGameLog.addKeyListener(controller);
 
@@ -571,6 +593,7 @@ public class View extends JFrame {
 
             // Updates the game log area
             JTextField newGameLog = new JTextField(model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).codename + " hit the green base");
+            redTotalScore += 100;
             newGameLog.setEditable(false);
             newGameLog.addKeyListener(controller);
 
@@ -602,6 +625,14 @@ public class View extends JFrame {
             gameLogArea.add(newGameLog);
 
             model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitEnemyPlayer();
+            if(hardware1 % 2 == 0)
+            {
+                greenTotalScore += 10;
+            }
+            else
+            {
+                redTotalScore += 10;
+            }
             server.send(String.valueOf(hardware2));
             // +10 points for player
         }
@@ -621,12 +652,22 @@ public class View extends JFrame {
             gameLogArea.add(newGameLog);
 
             model.allPlayersList.get(model.checkPlayerListByHardware(hardware1)).hitTeamPlayer();
+            if(hardware1 % 2 == 0 && greenTotalScore >= 10)
+            {
+                greenTotalScore -= 10;
+            }
+            else if(hardware1 % 2 == 1 && redTotalScore >= 10)
+            {
+                redTotalScore -=10;
+            }
             server.send(String.valueOf(hardware1));
             // -10 points for player
         }
 
         model.sortTeamsByScore();
         updateAllPlayerRows();
+        updateScore(redTotalScoreRow, true);
+        updateScore(greenTotalScoreRow, false);
         this.repaint();
         this.scrollBoxUpdate(hardware1, hardware2);
     }
