@@ -396,6 +396,13 @@ public class View extends JFrame {
                 secondsRemaining[0]--;
                 updateTimerLabel(secondsRemaining[0], timerLabel);
 
+                // Separate Thread to run tracks without interfering with game timer
+                new Thread(() -> {
+                    if (secondsRemaining[0] == 18) {
+                        audio.run();
+                    }
+                }).start();
+
                 if (secondsRemaining[0] <= 0) {
                     gameTimer.stop();
                     startGameTimer(gameDuration, timerLabel, timerPanel);
@@ -505,9 +512,6 @@ public class View extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 secondsRemaining[0]--;
                 updateTimerLabel(secondsRemaining[0], timerLabel);
-
-                // Testing to make sure scores update
-                System.out.println(model.allPlayersList.get(1).codename + " score = " + model.allPlayersList.get(1).score);
 
                 if (secondsRemaining[0] <= 0) {
                     gameTimer.stop();
